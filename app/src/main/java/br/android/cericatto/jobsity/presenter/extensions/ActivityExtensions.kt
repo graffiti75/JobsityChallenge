@@ -1,4 +1,4 @@
-package br.android.cericatto.jobsity.presenter.utils.extensions
+package br.android.cericatto.jobsity.presenter.extensions
 
 import android.app.Activity
 import android.content.Context
@@ -6,7 +6,9 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.BuildConfig
 import br.android.cericatto.jobsity.model.ApiService
@@ -31,10 +33,38 @@ fun Context.showToast(message: Int) {
     Toast.makeText(this, this.getString(message), Toast.LENGTH_LONG).show()
 }
 
-fun Context.openActivity(activity: Activity, clazz: Class<*>) {
-    val intent = Intent(activity, clazz)
-    activity.startActivity(intent)
-    NavigationUtils.animate(activity, NavigationUtils.Animation.GO)
+fun AppCompatActivity.openActivity(clazz: Class<*>) {
+    val intent = Intent(this, clazz)
+    this.startActivity(intent)
+    NavigationUtils.animate(this, NavigationUtils.Animation.GO)
+}
+
+fun AppCompatActivity.openActivityExtras(clazz: Class<*>, key: String, value: Any) {
+    val intent = Intent(this, clazz)
+    val extras = getExtra(Bundle(), key, value)
+    intent.putExtras(extras)
+
+    this.startActivity(intent)
+    NavigationUtils.animate(this, NavigationUtils.Animation.GO)
+}
+
+fun AppCompatActivity.openActivityForResultWithExtras(clazz: Class<*>, code: Int, key: String, value: Any) {
+    val intent = Intent(this, clazz)
+    val extras = getExtra(Bundle(), key, value)
+    intent.putExtras(extras)
+
+    this.startActivityForResult(intent, code)
+    NavigationUtils.animate(this, NavigationUtils.Animation.GO)
+}
+
+private fun getExtra(extras: Bundle, key: String, value: Any): Bundle {
+    when (value) {
+        is String -> extras.putString(key, value)
+        is Int -> extras.putInt(key, value)
+        is Long -> extras.putLong(key, value)
+        is Boolean -> extras.putBoolean(key, value)
+    }
+    return extras
 }
 
 fun String.trimStartEnd(): String {

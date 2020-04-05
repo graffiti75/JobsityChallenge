@@ -1,15 +1,17 @@
 package br.android.cericatto.jobsity.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import android.widget.SearchView
+import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.MainApplication
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.Shows
-import br.android.cericatto.jobsity.presenter.utils.extensions.initApiService
-import br.android.cericatto.jobsity.presenter.utils.extensions.networkOn
-import br.android.cericatto.jobsity.presenter.utils.extensions.showToast
+import br.android.cericatto.jobsity.presenter.extensions.initApiService
+import br.android.cericatto.jobsity.presenter.extensions.networkOn
+import br.android.cericatto.jobsity.presenter.extensions.showToast
 import br.android.cericatto.jobsity.view.adapter.ShowsAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -24,9 +26,7 @@ class MainActivity : ParentActivity() {
     //--------------------------------------------------
 
     private lateinit var mSearchView: SearchView
-
     private var mShowsList: MutableList<Shows> = arrayListOf()
-    private lateinit var mShowsAdapter: ShowsAdapter
 
     private val mComposite = CompositeDisposable()
 
@@ -48,6 +48,13 @@ class MainActivity : ParentActivity() {
         mComposite.dispose()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AppConfiguration.MAIN_TO_DETAILS_CODE) {
+            updateVisibilities(false)
+        }
+    }
+
     //--------------------------------------------------
     // Menu
     //--------------------------------------------------
@@ -67,7 +74,7 @@ class MainActivity : ParentActivity() {
                 try {
                     if (!networkOn()) showToast(R.string.no_internet)
                     else {
-                        updateVisibilites()
+                        updateVisibilities()
                         mShowsList.clear()
                         searchShows(query)
                     }
@@ -119,10 +126,10 @@ class MainActivity : ParentActivity() {
                     getShowsOnSuccess(list)
                 },
                 {
-                    Timber.i("setDataListItems() -> On error: $it")
+                    Timber.i("searchShows() -> On error: $it")
                 },
                 {
-                    Timber.i("setDataListItems() -> On Completed.")
+                    Timber.i("searchShows() -> On Completed.")
                 }
             )
         mComposite.add(subscription)
@@ -135,14 +142,14 @@ class MainActivity : ParentActivity() {
         } else {
             setAdapter(list)
         }
-        updateVisibilites(false)
+        updateVisibilities(false)
     }
 
     private fun setAdapter(list: MutableList<Shows>) {
-        activity_main__recycler_view.adapter = ShowsAdapter(list)
+        activity_main__recycler_view.adapter = ShowsAdapter(this, list)
     }
 
-    private fun updateVisibilites(loading: Boolean = true) {
+    private fun updateVisibilities(loading: Boolean = true) {
         if (loading) {
             activity_main__recycler_view.visibility = View.GONE
             activity_main__loading.visibility = View.VISIBLE

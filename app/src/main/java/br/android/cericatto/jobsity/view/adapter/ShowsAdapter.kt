@@ -5,13 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.Shows
+import br.android.cericatto.jobsity.presenter.extensions.openActivityForResultWithExtras
+import br.android.cericatto.jobsity.view.activity.DetailsActivity
+import br.android.cericatto.jobsity.view.activity.MainActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.item_shows.view.*
 
-class ShowsAdapter(private val mDataList: List<Shows>) : RecyclerView.Adapter<ShowsAdapter.ShowsViewHolder>() {
+class ShowsAdapter(
+    private val mActivity: MainActivity,
+    private val mDataList: List<Shows>
+) : RecyclerView.Adapter<ShowsAdapter.ShowsViewHolder>() {
 
     //--------------------------------------------------
     // Attributes
@@ -36,6 +44,15 @@ class ShowsAdapter(private val mDataList: List<Shows>) : RecyclerView.Adapter<Sh
         val item = mDataList[position]
 
         val url = item.image.medium
+
+        holder.container.setOnClickListener {
+            val json: String = Gson().toJson(item)
+            mActivity.openActivityForResultWithExtras(
+                DetailsActivity::class.java, AppConfiguration.MAIN_TO_DETAILS_CODE,
+                AppConfiguration.CURRENT_SHOW_EXTRA, json
+            )
+        }
+
         Glide.with(holder.showImageView)
             .load(url)
             .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
