@@ -12,91 +12,27 @@
     app:cardCornerRadius="10dp"
     app:cardElevation="10dp">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="120dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_shows__image_view"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_image_placeholder" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_shows__name_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/red_500"
-            android:textSize="18sp"
-            tools:text="Under the Dome" />
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/item_shows__schedule_days_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/red_500"
-                android:textSize="18sp"
-                tools:text="Thursday" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/item_shows__schedule_time_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/red_500"
-                android:textSize="18sp"
-                tools:text="22:00" />
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/item_shows__genres_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:ellipsize="end"
+            android:layout_height="match_parent"
+            android:background="@color/black_transparent_60"
             android:maxLines="2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/black"
-            android:textSize="22sp"
+            android:padding="20dp"
+            android:textColor="@color/colorAccentLight"
+            android:textSize="28sp"
             android:textStyle="bold"
-            tools:text="Drama, Science-Fiction, Thriller" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/item_shows__summary_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="15dp"
-            android:maxLines="2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/grey_800"
-            android:textSize="18sp"
-            tools:text="@string/item_shows__summary" />
-    </LinearLayout>
+            tools:text="Under the Dome" />
+    </FrameLayout>
 </androidx.cardview.widget.CardView>

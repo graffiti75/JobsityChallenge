@@ -1,6 +1,5 @@
 package br.android.cericatto.jobsity.view.adapter
 
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,11 +58,6 @@ class ShowsAdapter(
             .into(holder.showImageView)
 
         holder.nameTextView.text = item.name
-        holder.daysTextView.text = item.schedule.days?.joinToString(separator = ", ") { it }
-        holder.timeTextView.text = item.schedule.time
-        holder.genresTextView.text = item.genres?.joinToString(separator = ", ") { it }
-
-        holder.summaryTextView.text = Html.fromHtml(item.summary)
     }
 
     //--------------------------------------------------
@@ -74,9 +68,5 @@ class ShowsAdapter(
         val container = itemView.item_shows__card_view!!
         val showImageView = itemView.item_shows__image_view!!
         val nameTextView = itemView.item_shows__name_text_view!!
-        val daysTextView = itemView.item_shows__schedule_days_text_view!!
-        val timeTextView = itemView.item_shows__schedule_time_text_view!!
-        val genresTextView = itemView.item_shows__genres_text_view!!
-        val summaryTextView = itemView.item_shows__summary_text_view!!
     }
 }
