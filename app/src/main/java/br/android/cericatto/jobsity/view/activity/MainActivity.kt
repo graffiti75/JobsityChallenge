@@ -1,7 +1,9 @@
 package br.android.cericatto.jobsity.view.activity
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
+import android.widget.SearchView
 import br.android.cericatto.jobsity.MainApplication
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.Shows
@@ -21,6 +23,11 @@ class MainActivity : ParentActivity() {
     // Attributes
     //--------------------------------------------------
 
+    private lateinit var mSearchView: SearchView
+
+    private var mShowsList: MutableList<Shows> = arrayListOf()
+    private lateinit var mShowsAdapter: ShowsAdapter
+
     private val mComposite = CompositeDisposable()
 
     //--------------------------------------------------
@@ -31,7 +38,7 @@ class MainActivity : ParentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setToolbar(R.id.id_toolbar,true, R.string.activity_main__title)
+        setToolbar(R.id.id_toolbar, titleId = R.string.activity_main__title)
         MainApplication.service = initApiService()
         setDataListItems()
     }
@@ -39,6 +46,39 @@ class MainActivity : ParentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mComposite.dispose()
+    }
+
+    //--------------------------------------------------
+    // Menu
+    //--------------------------------------------------
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        initMenu(menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun initMenu(menu: Menu) {
+        val searchItem = menu.findItem(R.id.search)
+        mSearchView = searchItem.actionView as SearchView
+        mSearchView.queryHint = getString(R.string.search_hint)
+        mSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                try {
+                    if (!networkOn()) showToast(R.string.no_internet)
+                    else {
+                        updateVisibilites()
+                        mShowsList.clear()
+                        searchShows(query)
+                    }
+                } catch (e: Exception) {
+                    showToast(R.string.search_error)
+                }
+                searchItem.collapseActionView()
+                return false
+            }
+            override fun onQueryTextChange(newText: String) = true
+        })
     }
 
     //--------------------------------------------------
@@ -53,9 +93,10 @@ class MainActivity : ParentActivity() {
             val observable = service.getShowsList()
             val subscription = observable
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
                     {
-                        setAdapter(it)
+                        getShowsOnSuccess(it, false)
                     },
                     {
                         Timber.i("setDataListItems() -> On error: $it")
@@ -68,10 +109,46 @@ class MainActivity : ParentActivity() {
         }
     }
 
+    private fun searchShows(query: String) {
+        val subscription = MainApplication.service.search(query)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    val list: MutableList<Shows> = it.map { data -> data.show } as MutableList<Shows>
+                    getShowsOnSuccess(list)
+                },
+                {
+                    Timber.i("setDataListItems() -> On error: $it")
+                },
+                {
+                    Timber.i("setDataListItems() -> On Completed.")
+                }
+            )
+        mComposite.add(subscription)
+    }
+
+    private fun getShowsOnSuccess(list: MutableList<Shows>, searchPerformed: Boolean = true) {
+        if (searchPerformed) {
+            mShowsList.addAll(list)
+            setAdapter(mShowsList)
+        } else {
+            setAdapter(list)
+        }
+        updateVisibilites(false)
+    }
+
     private fun setAdapter(list: MutableList<Shows>) {
         activity_main__recycler_view.adapter = ShowsAdapter(list)
+    }
 
-        activity_main__recycler_view.visibility = View.VISIBLE
-        activity_main__loading.visibility = View.GONE
+    private fun updateVisibilites(loading: Boolean = true) {
+        if (loading) {
+            activity_main__recycler_view.visibility = View.GONE
+            activity_main__loading.visibility = View.VISIBLE
+        } else {
+            activity_main__recycler_view.visibility = View.VISIBLE
+            activity_main__loading.visibility = View.GONE
+        }
     }
 }

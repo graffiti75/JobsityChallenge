@@ -1,5 +1,6 @@
 package br.android.cericatto.jobsity.view.adapter
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +46,7 @@ class ShowsAdapter(private val mDataList: List<Shows>) : RecyclerView.Adapter<Sh
         holder.timeTextView.text = item.schedule.time
         holder.genresTextView.text = item.genres?.joinToString(separator = ", ") { it }
 
-        holder.summaryTextView.text = item.summary
+        holder.summaryTextView.text = Html.fromHtml(item.summary)
     }
 
     //--------------------------------------------------

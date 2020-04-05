@@ -9,4 +9,9 @@ interface ApiService {
     fun getShowsList(
         @Query("page") page: Int = 0
     ): Observable<MutableList<Shows>>
+
+    @GET("/search/shows")
+    fun search(
+        @Query("q") keyword: String
+    ): Observable<MutableList<SearchShow>>
 }

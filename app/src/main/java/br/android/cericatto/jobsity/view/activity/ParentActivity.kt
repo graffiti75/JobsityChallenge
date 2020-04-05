@@ -40,12 +40,12 @@ open class ParentActivity : AppCompatActivity() {
     // Methods
     //--------------------------------------------------
 
-    fun setToolbar(toolbarId: Int, homeEnabled: Boolean) {
+    fun setToolbar(toolbarId: Int, homeEnabled: Boolean = false) {
         setSupportActionBar(findViewById(toolbarId))
         supportActionBar?.setDisplayHomeAsUpEnabled(homeEnabled)
     }
 
-    fun setToolbar(toolbarId: Int, homeEnabled: Boolean, titleId: Int) {
+    fun setToolbar(toolbarId: Int, homeEnabled: Boolean = false, titleId: Int) {
         setSupportActionBar(findViewById(toolbarId))
         supportActionBar?.setDisplayHomeAsUpEnabled(homeEnabled)
         supportActionBar?.title = getString(titleId)
