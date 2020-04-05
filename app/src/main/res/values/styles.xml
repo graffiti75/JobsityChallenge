@@ -1,20 +1,39 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!--========================= APPLICATION =========================-->
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <!--<style name="AppTheme" parent="AppTheme.Base.AppCompat.Light.DarkActionBar">-->
+        <!-- Your app branding color for the app bar -->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- Darker variant for the status bar and contextual app bars -->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!-- Theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- Change the normal state of unchecked checkboxes, etc -->
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <!-- Overrides colorAccent on activated/checked UI controls -->
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <!-- Controls the ripple coloring -->
+        <item name="colorControlHighlight">@color/colorPrimary</item>
     </style>
+
+    <!--=============== TOOLBAR ===============-->
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!--=============== SCREENS ===============-->
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
+    <style name="RecyclerView_ScrollbarStyle">
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+        <item name="android:scrollbarStyle">insideOverlay</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:fadeScrollbars">true</item>
+        <item name="android:scrollbarSize">8dp</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:scrollbarThumbVertical">@drawable/vertical_scrollbar</item>
+    </style>
 </resources>
