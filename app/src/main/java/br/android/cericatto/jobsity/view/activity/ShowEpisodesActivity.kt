@@ -51,20 +51,20 @@ class ShowEpisodesActivity : ParentActivity() {
     }
 
     private fun initLayout(currentShow: Shows) {
-        Glide.with(activity_details__image_view)
+        Glide.with(activity_show_details__image_view)
             .load(currentShow.image.original)
             .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
-            .into(activity_details__image_view)
+            .into(activity_show_details__image_view)
 
-        activity_details__name_text_view.text = currentShow.name
+        activity_show_details__name_text_view.text = currentShow.name
 
         if (currentShow.schedule.time.isEmpty()) {
-            activity_details__schedule_time_text_view.visibility = View.GONE
+            activity_show_details__schedule_time_text_view.visibility = View.GONE
         } else {
-            activity_details__schedule_time_text_view.text = currentShow.schedule.time
+            activity_show_details__schedule_time_text_view.text = currentShow.schedule.time
         }
 
-        activity_details__genres_text_view.text = currentShow.genres?.joinToString(separator = ", ") { it }
-        activity_details__summary_text_view.text = Html.fromHtml(currentShow.summary)
+        activity_show_details__genres_text_view.text = currentShow.genres?.joinToString(separator = ", ") { it }
+        activity_show_details__summary_text_view.text = Html.fromHtml(currentShow.summary)
     }
 }

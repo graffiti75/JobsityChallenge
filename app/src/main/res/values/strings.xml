@@ -14,5 +14,8 @@
     <string name="item_episodes__number">Number: %1$s</string>
     <string name="item_episodes__name">Name: %1$s</string>
 
-    <string name="activity_details__episodes">Episodes</string>
+    <string name="activity_show_details__episodes">Episodes:</string>
+    <string name="activity_show_details__summary">Summary:</string>
+    <string name="activity_show_details__gender">Gender:</string>
+    <string name="activity_show_details__schedule">Schedule:</string>
 </resources>

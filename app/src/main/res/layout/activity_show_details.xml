@@ -12,7 +12,7 @@
     <!--=============== HEADER ===============-->
 
     <LinearLayout
-        android:id="@+id/activity_details__container"
+        android:id="@+id/activity_show_details__container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -23,17 +23,17 @@
             android:layout_height="160dp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/activity_details__image_view"
+                android:id="@+id/activity_show_details__image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_image_placeholder" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/activity_details__name_text_view"
+                android:id="@+id/activity_show_details__name_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/black_transparent_65"
+                android:background="@color/black_transparent_30"
                 android:maxLines="2"
                 android:padding="20dp"
                 android:textColor="@color/colorAccentLight"
@@ -44,15 +44,29 @@
 
         <!--=============== MIDDLE ===============-->
 
+        <!-- Schedule -->
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLines="2"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/activity_show_details__schedule"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             android:weightSum="4">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/activity_details__schedule_days_text_view"
+                android:id="@+id/activity_show_details__schedule_days_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -64,7 +78,7 @@
                 tools:text="Thursday" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/activity_details__schedule_time_text_view"
+                android:id="@+id/activity_show_details__schedule_time_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -77,11 +91,24 @@
                 tools:text="22:00" />
         </LinearLayout>
 
+        <!-- Gender -->
+
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/activity_details__genres_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:maxLines="2"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/activity_show_details__gender"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/activity_show_details__genres_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:paddingLeft="10dp"
@@ -90,29 +117,7 @@
             android:textSize="20sp"
             tools:text="Drama, Science-Fiction, Thriller" />
 
-        <ScrollView
-            style="@style/RecyclerView_ScrollbarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/colorAccentLight"
-            android:padding="5dp">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/activity_details__summary_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="15dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/grey_800"
-                android:textSize="18sp"
-                tools:text="@string/item_shows__summary" />
-        </ScrollView>
-
-        <!--=============== BOTTOM ===============-->
+        <!-- Episodes -->
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -121,25 +126,61 @@
             android:maxLines="2"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="@string/activity_details__episodes"
+            android:text="@string/activity_show_details__episodes"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_details__recycler_view"
+            android:id="@+id/activity_show_details__recycler_view"
             style="@style/RecyclerView_ScrollbarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/white"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
             tools:listitem="@layout/item_episodes" />
+
+        <!--=============== BOTTOM ===============-->
+
+        <!-- Summary -->
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLines="2"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/activity_show_details__summary"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            style="@style/RecyclerView_ScrollbarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_show_details__summary_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/grey_800"
+                android:textSize="18sp"
+                tools:text="@string/item_shows__summary" />
+        </ScrollView>
     </LinearLayout>
 
     <include
-        android:id="@+id/activity_details__loading"
+        android:id="@+id/activity_show_details__loading"
         layout="@layout/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

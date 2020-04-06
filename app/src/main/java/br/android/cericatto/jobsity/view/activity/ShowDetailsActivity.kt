@@ -1,6 +1,7 @@
 package br.android.cericatto.jobsity.view.activity
 
 import android.os.Bundle
+import android.os.Handler
 import android.text.Html
 import android.view.View
 import br.android.cericatto.jobsity.AppConfiguration
@@ -62,34 +63,34 @@ class ShowDetailsActivity : ParentActivity() {
     }
 
     private fun initLayout(currentShow: Shows) {
-        Glide.with(activity_details__image_view)
+        Glide.with(activity_show_details__image_view)
             .load(currentShow.image.original)
             .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
-            .into(activity_details__image_view)
+            .into(activity_show_details__image_view)
 
-        activity_details__name_text_view.text = currentShow.name
+        activity_show_details__name_text_view.text = currentShow.name
 
-        activity_details__schedule_days_text_view.text = currentShow.schedule.days?.joinToString(separator = ", ") { it }
+        activity_show_details__schedule_days_text_view.text = currentShow.schedule.days?.joinToString(separator = ", ") { it }
 
         if (currentShow.schedule.time.isEmpty()) {
-            activity_details__schedule_time_text_view.visibility = View.GONE
+            activity_show_details__schedule_time_text_view.visibility = View.GONE
         } else {
-            activity_details__schedule_time_text_view.text = currentShow.schedule.time
+            activity_show_details__schedule_time_text_view.text = currentShow.schedule.time
         }
 
-        activity_details__genres_text_view.text = currentShow.genres?.joinToString(separator = ", ") { it }
-        activity_details__summary_text_view.text = Html.fromHtml(currentShow.summary)
+        activity_show_details__genres_text_view.text = currentShow.genres?.joinToString(separator = ", ") { it }
+        activity_show_details__summary_text_view.text = Html.fromHtml(currentShow.summary)
 
         getEpisodes()
     }
 
     private fun updateVisibilities(loading: Boolean = true) {
         if (loading) {
-            activity_details__container.visibility = View.GONE
-            activity_details__loading.visibility = View.VISIBLE
+            activity_show_details__container.visibility = View.GONE
+            activity_show_details__loading.visibility = View.VISIBLE
         } else {
-            activity_details__container.visibility = View.VISIBLE
-            activity_details__loading.visibility = View.GONE
+            activity_show_details__container.visibility = View.VISIBLE
+            activity_show_details__loading.visibility = View.GONE
         }
     }
 
@@ -122,10 +123,12 @@ class ShowDetailsActivity : ParentActivity() {
 
     private fun getEpisodesOnSuccess(list: MutableList<Episode>) {
         setAdapter(list)
-        updateVisibilities(false)
+        Handler().postDelayed({
+            updateVisibilities(false)
+        }, 1000)
     }
 
     private fun setAdapter(list: MutableList<Episode>) {
-        activity_details__recycler_view.adapter = EpisodesAdapter(this, list)
+        activity_show_details__recycler_view.adapter = EpisodesAdapter(this, list)
     }
 }
