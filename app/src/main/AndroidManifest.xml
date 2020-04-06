@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="br.android.cericatto.jobsity">
 
     <!--=============== PERMISSIONS ===============-->
@@ -20,7 +21,7 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name="br.android.cericatto.jobsity.view.activity.MainActivity"
+            android:name=".view.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -33,21 +34,23 @@
         </activity>
 
         <activity
-            android:name="br.android.cericatto.jobsity.view.activity.ShowDetailsActivity"
-            android:parentActivityName="br.android.cericatto.jobsity.view.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".view.activity.ShowDetailsActivity"
+            android:parentActivityName=".view.activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.android.cericatto.jobsity.view.activity.MainActivity" />
+                android:value=".view.activity.MainActivity" />
         </activity>
 
         <activity
-            android:name="br.android.cericatto.jobsity.view.activity.ShowEpisodesActivity"
-            android:parentActivityName="br.android.cericatto.jobsity.view.activity.ShowDetailsActivity"
+            android:name=".view.activity.ShowEpisodeActivity"
+            android:parentActivityName=".view.activity.ShowDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.android.cericatto.jobsity.view.activity.ShowDetailsActivity" />
+                android:value=".view.activity.ShowDetailsActivity" />
         </activity>
     </application>
 </manifest>

@@ -123,9 +123,9 @@ class ShowDetailsActivity : ParentActivity() {
 
     private fun getEpisodesOnSuccess(list: MutableList<Episode>) {
         setAdapter(list)
-        Handler().postDelayed({
+//        Handler().postDelayed({
             updateVisibilities(false)
-        }, 1000)
+//        }, 2000)
     }
 
     private fun setAdapter(list: MutableList<Episode>) {

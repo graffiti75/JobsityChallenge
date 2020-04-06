@@ -82,7 +82,7 @@ class MainActivity : ParentActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == AppConfiguration.MAIN_TO_DETAILS_CODE) {
+        if (requestCode == AppConfiguration.MAIN_TO_SHOW_DETAILS_CODE) {
             updateVisibilities(false)
         }
     }

@@ -48,7 +48,7 @@ class ShowsAdapter(
         holder.container.setOnClickListener {
             val json: String = Gson().toJson(item)
             mActivity.openActivityForResultWithExtras(
-                ShowDetailsActivity::class.java, AppConfiguration.MAIN_TO_DETAILS_CODE,
+                ShowDetailsActivity::class.java, AppConfiguration.MAIN_TO_SHOW_DETAILS_CODE,
                 AppConfiguration.CURRENT_SHOW_EXTRA, json
             )
         }

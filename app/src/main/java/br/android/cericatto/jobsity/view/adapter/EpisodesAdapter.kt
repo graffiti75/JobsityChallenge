@@ -5,9 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.api.Episode
+import br.android.cericatto.jobsity.presenter.extensions.openActivityForResultWithExtras
 import br.android.cericatto.jobsity.view.activity.ShowDetailsActivity
+import br.android.cericatto.jobsity.view.activity.ShowEpisodeActivity
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.item_episodes.view.*
 
 class EpisodesAdapter(
@@ -43,11 +47,11 @@ class EpisodesAdapter(
         holder.container.background = drawable
 
         holder.container.setOnClickListener {
-//            val json: String = Gson().toJson(item)
-//            mActivity.openActivityForResultWithExtras(
-//                ShowDetailsActivity::class.java, AppConfiguration.MAIN_TO_DETAILS_CODE,
-//                AppConfiguration.CURRENT_SHOW_EXTRA, json
-//            )
+            val json: String = Gson().toJson(item)
+            mActivity.openActivityForResultWithExtras(
+                ShowEpisodeActivity::class.java, AppConfiguration.SHOW_DETAILS_TO_EPISODE_DETAILS_CODE,
+                AppConfiguration.CURRENT_EPISODE_EXTRA, json
+            )
         }
 
         val season = " " + item.season

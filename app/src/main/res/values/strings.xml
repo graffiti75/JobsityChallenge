@@ -18,4 +18,9 @@
     <string name="activity_show_details__summary">Summary:</string>
     <string name="activity_show_details__gender">Gender:</string>
     <string name="activity_show_details__schedule">Schedule:</string>
+
+    <string name="activity_show_episode__name">Name:</string>
+    <string name="activity_show_episode__number">Number:</string>
+    <string name="activity_show_episode__season">Season:</string>
+    <string name="activity_show_episode__summary">Summary:</string>
 </resources>
