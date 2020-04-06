@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -40,6 +40,15 @@
                 android:textSize="30sp"
                 android:textStyle="bold"
                 tools:text="Under the Dome" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/activity_show_details__favorite_image_view"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="right"
+                android:layout_margin="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_favorite_border" />
         </FrameLayout>
 
         <!--=============== MIDDLE ===============-->
@@ -184,6 +193,6 @@
         layout="@layout/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible" />
+        android:visibility="gone" />
 </LinearLayout>
 

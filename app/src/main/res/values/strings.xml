@@ -23,4 +23,6 @@
     <string name="activity_show_episode__number">Number:</string>
     <string name="activity_show_episode__season">Season:</string>
     <string name="activity_show_episode__summary">Summary:</string>
+
+    <string name="favorites_title">Favorite Series</string>
 </resources>

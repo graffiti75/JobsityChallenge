@@ -30,6 +30,7 @@ class ShowDetailsActivity : ParentActivity() {
 
     private val mComposite = CompositeDisposable()
     private var mShowId = 0
+    private var mFavorite = false
 
     //--------------------------------------------------
     // Activity Life Cycle
@@ -80,6 +81,15 @@ class ShowDetailsActivity : ParentActivity() {
 
         activity_show_details__genres_text_view.text = currentShow.genres?.joinToString(separator = ", ") { it }
         activity_show_details__summary_text_view.text = Html.fromHtml(currentShow.summary)
+
+        activity_show_details__favorite_image_view.setOnClickListener {
+            mFavorite = !mFavorite
+            var drawableId = R.drawable.ic_favorite_border
+            if (mFavorite) {
+                drawableId = R.drawable.ic_favorite
+            }
+            it.setBackgroundResource(drawableId)
+        }
 
         getEpisodes()
     }
