@@ -9,8 +9,8 @@ import br.android.cericatto.jobsity.MainApplication
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.api.Shows
 import br.android.cericatto.jobsity.presenter.extensions.openActivityForResultWithExtras
-import br.android.cericatto.jobsity.view.activity.DetailsActivity
 import br.android.cericatto.jobsity.view.activity.MainActivity
+import br.android.cericatto.jobsity.view.activity.ShowDetailsActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
@@ -48,7 +48,7 @@ class ShowsAdapter(
         holder.container.setOnClickListener {
             val json: String = Gson().toJson(item)
             mActivity.openActivityForResultWithExtras(
-                DetailsActivity::class.java, AppConfiguration.MAIN_TO_DETAILS_CODE,
+                ShowDetailsActivity::class.java, AppConfiguration.MAIN_TO_DETAILS_CODE,
                 AppConfiguration.CURRENT_SHOW_EXTRA, json
             )
         }

@@ -51,7 +51,7 @@ class MainActivity : ParentActivity() {
     private val mComposite = CompositeDisposable()
 
     private lateinit var mShowName: String
-    private lateinit var mShowsViewModel: ShowsViewModel
+    private lateinit var mViewModel: ShowsViewModel
 
     private lateinit var mScrollListener: RecyclerView.OnScrollListener
 
@@ -64,7 +64,7 @@ class MainActivity : ParentActivity() {
         setContentView(R.layout.activity_main)
 
         MainApplication.service = initApiService()
-        mShowsViewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
+        mViewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
 
         setToolbar(R.id.id_toolbar, titleId = R.string.activity_main__title)
         checkSavedInstanceState(savedInstanceState)
@@ -121,7 +121,7 @@ class MainActivity : ParentActivity() {
     }
 
     //--------------------------------------------------
-    // Data Methods
+    // Data Response Methods
     //--------------------------------------------------
 
     private fun checkSavedInstanceState(savedInstanceState: Bundle?) {
@@ -158,25 +158,25 @@ class MainActivity : ParentActivity() {
     }
 
     private fun getShows() {
-        Log.i(AppConfiguration.TAG, "getShows() -> Page is ${mShowsViewModel.page}.")
+        Log.i(AppConfiguration.TAG, "getShows() -> Page is ${mViewModel.page}.")
         if (!networkOn()) showToast(R.string.no_internet)
         else {
             val service = MainApplication.service
-            val observable = service.getShowsList(mShowsViewModel.page)
+            val observable = service.getShowsList(mViewModel.page)
             val subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        mShowsViewModel.lastId = it[it.size - 1].id
+                        mViewModel.lastId = it[it.size - 1].id
                         mIsToolbarMenuSearch = false
                         getShowsOnSuccess(it, false)
                     },
                     {
-                        Timber.i("setDataListItems() -> On error: $it")
+                        Timber.i("getShows() -> On error: $it")
                     },
                     {
-                        Timber.i("setDataListItems() -> On Completed.")
+                        Timber.i("getShows() -> On Completed.")
                     }
                 )
             mComposite.add(subscription)
@@ -208,15 +208,14 @@ class MainActivity : ParentActivity() {
     }
 
     //--------------------------------------------------
-    // Other Methods
+    // Data Decision Methods
     //--------------------------------------------------
 
     fun clearMoviesList(query: String) {
         mShowName = query
         mShowsList.clear()
         Cache.clearCacheShows()
-        mShowsViewModel.page = 1
-        mShowsViewModel.noMoreScrolling = false
+        mViewModel.page = 1
     }
 
     private fun getShowsOnSuccess(list: MutableList<Shows>, searchPerformed: Boolean = true) {
@@ -224,13 +223,14 @@ class MainActivity : ParentActivity() {
             mShowsList.addAll(list)
         } else {
             setRecyclerViewScrollListener()
-            if (mShowsViewModel.page > 0) {
+            if (mViewModel.page > 0) {
                 mShowsAdapter.updateList(list)
             } else {
                 mShowsList.addAll(list)
                 setAdapter(mShowsList)
             }
         }
+        activity_main__pagination_loading.visibility = View.GONE
         Cache.cacheShows(mShowsList)
         updateVisibilities(false)
     }
@@ -250,6 +250,10 @@ class MainActivity : ParentActivity() {
         }
     }
 
+    //--------------------------------------------------
+    // Pagination Methods
+    //--------------------------------------------------
+
     private fun setRecyclerViewScrollListener() {
         Log.i(AppConfiguration.TAG, "setRecyclerViewScrollListener().")
         mScrollListener = object : RecyclerView.OnScrollListener() {
@@ -264,13 +268,13 @@ class MainActivity : ParentActivity() {
     private fun onScrollChanged() {
         val currentAdapterShowId = MainApplication.currentAdapterShowId
         Log.i(AppConfiguration.TAG, "onScrollChanged -> currentAdapterShowId: $currentAdapterShowId ")
-        val noMoreScrolling = currentAdapterShowId == mShowsViewModel.lastId
+        val noMoreScrolling = currentAdapterShowId == mViewModel.lastId
         if (noMoreScrolling) {
-            // TODO: Put some loading here.
             if (!networkOn()) showToast(R.string.no_internet)
             else {
-                mShowsViewModel.page++
+                mViewModel.page++
                 if (!mIsToolbarMenuSearch) {
+                    activity_main__pagination_loading.visibility = View.VISIBLE
                     getShows()
                 }
                 Log.i(AppConfiguration.TAG, "onScrollChanged -> Calling removeOnScrollListener.")

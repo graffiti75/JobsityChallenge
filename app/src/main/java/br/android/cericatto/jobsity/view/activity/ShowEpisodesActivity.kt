@@ -2,6 +2,7 @@ package br.android.cericatto.jobsity.view.activity
 
 import android.os.Bundle
 import android.text.Html
+import android.view.View
 import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.api.Shows
@@ -10,9 +11,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_details.*
+import kotlinx.android.synthetic.main.activity_show_details.*
 
-class DetailsActivity : ParentActivity() {
+class ShowEpisodesActivity : ParentActivity() {
 
     //--------------------------------------------------
     // Attributes
@@ -26,7 +27,7 @@ class DetailsActivity : ParentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details)
+        setContentView(R.layout.activity_show_details)
 
         getExtras()
     }
@@ -56,8 +57,13 @@ class DetailsActivity : ParentActivity() {
             .into(activity_details__image_view)
 
         activity_details__name_text_view.text = currentShow.name
-        activity_details__schedule_days_text_view.text = currentShow.schedule.days?.joinToString(separator = ", ") { it }
-        activity_details__schedule_time_text_view.text = currentShow.schedule.time
+
+        if (currentShow.schedule.time.isEmpty()) {
+            activity_details__schedule_time_text_view.visibility = View.GONE
+        } else {
+            activity_details__schedule_time_text_view.text = currentShow.schedule.time
+        }
+
         activity_details__genres_text_view.text = currentShow.genres?.joinToString(separator = ", ") { it }
         activity_details__summary_text_view.text = Html.fromHtml(currentShow.summary)
     }
