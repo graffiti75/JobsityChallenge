@@ -1,5 +1,7 @@
-package br.android.cericatto.jobsity.model
+package br.android.cericatto.jobsity.model.retrofit
 
+import br.android.cericatto.jobsity.model.api.SearchShow
+import br.android.cericatto.jobsity.model.api.Shows
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

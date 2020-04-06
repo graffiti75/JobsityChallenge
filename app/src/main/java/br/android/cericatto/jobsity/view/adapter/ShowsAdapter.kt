@@ -5,8 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.android.cericatto.jobsity.AppConfiguration
+import br.android.cericatto.jobsity.MainApplication
 import br.android.cericatto.jobsity.R
-import br.android.cericatto.jobsity.model.Shows
+import br.android.cericatto.jobsity.model.api.Shows
 import br.android.cericatto.jobsity.presenter.extensions.openActivityForResultWithExtras
 import br.android.cericatto.jobsity.view.activity.DetailsActivity
 import br.android.cericatto.jobsity.view.activity.MainActivity
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.item_shows.view.*
 
 class ShowsAdapter(
     private val mActivity: MainActivity,
-    private val mDataList: List<Shows>
+    private val mDataList: MutableList<Shows>
 ) : RecyclerView.Adapter<ShowsAdapter.ShowsViewHolder>() {
 
     //--------------------------------------------------
@@ -41,9 +42,9 @@ class ShowsAdapter(
 
     override fun onBindViewHolder(holder: ShowsViewHolder, position: Int) {
         val item = mDataList[position]
+        MainApplication.currentAdapterShowId = item.id
 
         val url = item.image.medium
-
         holder.container.setOnClickListener {
             val json: String = Gson().toJson(item)
             mActivity.openActivityForResultWithExtras(
@@ -58,6 +59,15 @@ class ShowsAdapter(
             .into(holder.showImageView)
 
         holder.nameTextView.text = item.name
+    }
+
+    //--------------------------------------------------
+    // Methods
+    //--------------------------------------------------
+
+    fun updateList(list: MutableList<Shows>) {
+        mDataList.addAll(list)
+        notifyDataSetChanged()
     }
 
     //--------------------------------------------------

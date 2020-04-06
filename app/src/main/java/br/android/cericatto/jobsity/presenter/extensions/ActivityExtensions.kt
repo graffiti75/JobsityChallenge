@@ -1,6 +1,5 @@
 package br.android.cericatto.jobsity.presenter.extensions
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -11,7 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.BuildConfig
-import br.android.cericatto.jobsity.model.ApiService
+import br.android.cericatto.jobsity.model.retrofit.ApiService
 import br.android.cericatto.jobsity.presenter.utils.NavigationUtils
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor

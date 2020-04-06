@@ -1,34 +1,59 @@
 package br.android.cericatto.jobsity.view.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.SearchView
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.MainApplication
 import br.android.cericatto.jobsity.R
-import br.android.cericatto.jobsity.model.Shows
+import br.android.cericatto.jobsity.model.Cache
+import br.android.cericatto.jobsity.model.api.Shows
 import br.android.cericatto.jobsity.presenter.extensions.initApiService
 import br.android.cericatto.jobsity.presenter.extensions.networkOn
 import br.android.cericatto.jobsity.presenter.extensions.showToast
 import br.android.cericatto.jobsity.view.adapter.ShowsAdapter
+import br.android.cericatto.jobsity.view.viewmodel.ShowsViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
+@SuppressLint("LogNotTimber")
 class MainActivity : ParentActivity() {
+
+    //--------------------------------------------------
+    // Constants
+    //--------------------------------------------------
+
+    companion object {
+        const val LIST_POSITION_STATE = "list_position_state"
+    }
 
     //--------------------------------------------------
     // Attributes
     //--------------------------------------------------
 
     private lateinit var mSearchView: SearchView
+    private var mIsToolbarMenuSearch = false
+
+    private lateinit var mShowsAdapter: ShowsAdapter
     private var mShowsList: MutableList<Shows> = arrayListOf()
+    private var mListState: Parcelable? = null
 
     private val mComposite = CompositeDisposable()
+
+    private lateinit var mShowName: String
+    private lateinit var mShowsViewModel: ShowsViewModel
+
+    private lateinit var mScrollListener: RecyclerView.OnScrollListener
 
     //--------------------------------------------------
     // Activity Life Cycle
@@ -38,9 +63,16 @@ class MainActivity : ParentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setToolbar(R.id.id_toolbar, titleId = R.string.activity_main__title)
         MainApplication.service = initApiService()
-        setDataListItems()
+        mShowsViewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
+
+        setToolbar(R.id.id_toolbar, titleId = R.string.activity_main__title)
+        checkSavedInstanceState(savedInstanceState)
+    }
+
+    public override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(LIST_POSITION_STATE, activity_main__recycler_view.layoutManager?.onSaveInstanceState())
     }
 
     override fun onDestroy() {
@@ -75,7 +107,7 @@ class MainActivity : ParentActivity() {
                     if (!networkOn()) showToast(R.string.no_internet)
                     else {
                         updateVisibilities()
-                        mShowsList.clear()
+                        clearMoviesList(query)
                         searchShows(query)
                     }
                 } catch (e: Exception) {
@@ -89,20 +121,55 @@ class MainActivity : ParentActivity() {
     }
 
     //--------------------------------------------------
-    // Methods
+    // Data Methods
     //--------------------------------------------------
 
-    private fun setDataListItems() {
+    private fun checkSavedInstanceState(savedInstanceState: Bundle?) {
+        Log.i(AppConfiguration.TAG, "checkSavedInstanceState().")
+        mListState = savedInstanceState?.getParcelable(LIST_POSITION_STATE)
+        if (savedInstanceState == null) {   // Get shows from API.
+            Log.i(AppConfiguration.TAG, "checkSavedInstanceState() -> savedInstanceState is null.")
+            getShows()
+        } else {                            // Get cached shows from ViewModel.
+            Log.i(AppConfiguration.TAG, "checkSavedInstanceState() -> savedInstanceState is NOT null.")
+            val viewModel = ViewModelProviders
+                .of(this)
+                .get(ShowsViewModel::class.java)
+            val moviesList = viewModel.getShowsList()
+            showCachedMovies(moviesList)
+        }
+    }
+
+    private fun showCachedMovies(list: MutableList<Shows>) {
+        Log.i(AppConfiguration.TAG, "showCachedMovies().")
+        if (list.isNotEmpty()) mShowsList = list
+
+        if (activity_main__recycler_view.adapter == null) {
+            Log.i(AppConfiguration.TAG, "showCachedMovies() -> Adapter is null.")
+            setAdapter(mShowsList)
+            activity_main__recycler_view.adapter = mShowsAdapter
+        } else {
+            Log.i(AppConfiguration.TAG, "showCachedMovies() -> Adapter is NOT null.")
+            mShowsAdapter.notifyDataSetChanged()
+        }
+        activity_main__recycler_view.layoutManager!!.onRestoreInstanceState(mListState)
+        setRecyclerViewScrollListener()
+        updateVisibilities(false)
+    }
+
+    private fun getShows() {
+        Log.i(AppConfiguration.TAG, "getShows() -> Page is ${mShowsViewModel.page}.")
         if (!networkOn()) showToast(R.string.no_internet)
         else {
             val service = MainApplication.service
-
-            val observable = service.getShowsList()
+            val observable = service.getShowsList(mShowsViewModel.page)
             val subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
+                        mShowsViewModel.lastId = it[it.size - 1].id
+                        mIsToolbarMenuSearch = false
                         getShowsOnSuccess(it, false)
                     },
                     {
@@ -117,36 +184,60 @@ class MainActivity : ParentActivity() {
     }
 
     private fun searchShows(query: String) {
-        val subscription = MainApplication.service.search(query)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    val list: MutableList<Shows> = it.map { data -> data.show } as MutableList<Shows>
-                    getShowsOnSuccess(list)
-                },
-                {
-                    Timber.i("searchShows() -> On error: $it")
-                },
-                {
-                    Timber.i("searchShows() -> On Completed.")
-                }
-            )
-        mComposite.add(subscription)
+//        if (mShowsViewModel.page <= mShowsViewModel.pagesNeeded) {
+            val subscription = MainApplication.service.search(query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        val list: MutableList<Shows> = it.map {
+                            data -> data.show
+                        } as MutableList<Shows>
+                        mIsToolbarMenuSearch = true
+                        getShowsOnSuccess(list)
+                    },
+                    {
+                        Timber.i("searchShows() -> On error: $it")
+                    },
+                    {
+                        Timber.i("searchShows() -> On Completed.")
+                    }
+                )
+            mComposite.add(subscription)
+//        }
+    }
+
+    //--------------------------------------------------
+    // Other Methods
+    //--------------------------------------------------
+
+    fun clearMoviesList(query: String) {
+        mShowName = query
+        mShowsList.clear()
+        Cache.clearCacheShows()
+        mShowsViewModel.page = 1
+        mShowsViewModel.noMoreScrolling = false
     }
 
     private fun getShowsOnSuccess(list: MutableList<Shows>, searchPerformed: Boolean = true) {
         if (searchPerformed) {
             mShowsList.addAll(list)
-            setAdapter(mShowsList)
         } else {
-            setAdapter(list)
+            setRecyclerViewScrollListener()
+            if (mShowsViewModel.page > 0) {
+                mShowsAdapter.updateList(list)
+            } else {
+                mShowsList.addAll(list)
+                setAdapter(mShowsList)
+            }
         }
+        Cache.cacheShows(mShowsList)
         updateVisibilities(false)
     }
 
     private fun setAdapter(list: MutableList<Shows>) {
-        activity_main__recycler_view.adapter = ShowsAdapter(this, list)
+        mShowsAdapter = ShowsAdapter(this, list)
+        activity_main__recycler_view.adapter = mShowsAdapter
     }
 
     private fun updateVisibilities(loading: Boolean = true) {
@@ -156,6 +247,35 @@ class MainActivity : ParentActivity() {
         } else {
             activity_main__recycler_view.visibility = View.VISIBLE
             activity_main__loading.visibility = View.GONE
+        }
+    }
+
+    private fun setRecyclerViewScrollListener() {
+        Log.i(AppConfiguration.TAG, "setRecyclerViewScrollListener().")
+        mScrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                onScrollChanged()
+            }
+        }
+        activity_main__recycler_view.addOnScrollListener(mScrollListener)
+    }
+
+    private fun onScrollChanged() {
+        val currentAdapterShowId = MainApplication.currentAdapterShowId
+        Log.i(AppConfiguration.TAG, "onScrollChanged -> currentAdapterShowId: $currentAdapterShowId ")
+        val noMoreScrolling = currentAdapterShowId == mShowsViewModel.lastId
+        if (noMoreScrolling) {
+            // TODO: Put some loading here.
+            if (!networkOn()) showToast(R.string.no_internet)
+            else {
+                mShowsViewModel.page++
+                if (!mIsToolbarMenuSearch) {
+                    getShows()
+                }
+                Log.i(AppConfiguration.TAG, "onScrollChanged -> Calling removeOnScrollListener.")
+                activity_main__recycler_view!!.removeOnScrollListener(mScrollListener)
+            }
         }
     }
 }

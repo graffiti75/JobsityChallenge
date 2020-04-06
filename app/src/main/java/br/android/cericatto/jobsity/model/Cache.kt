@@ -1,7 +1,8 @@
 package br.android.cericatto.jobsity.model
 
-object Cache {
+import br.android.cericatto.jobsity.model.api.Shows
 
+object Cache {
     var shows = mutableListOf<Shows>()
 
     fun cacheShows(newList: MutableList<Shows>) {

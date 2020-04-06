@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.text.Html
 import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.R
-import br.android.cericatto.jobsity.model.Shows
+import br.android.cericatto.jobsity.model.api.Shows
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
@@ -51,7 +51,7 @@ class DetailsActivity : ParentActivity() {
 
     private fun initLayout(currentShow: Shows) {
         Glide.with(activity_details__image_view)
-            .load(currentShow.image.medium)
+            .load(currentShow.image.original)
             .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
             .into(activity_details__image_view)
 

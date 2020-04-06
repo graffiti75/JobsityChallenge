@@ -62,6 +62,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
 
     // Others.
+    implementation "android.arch.lifecycle:extensions:$ARCH_VERSION"
     implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
     implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
     implementation "com.google.code.gson:gson:$GSON_VERSION"

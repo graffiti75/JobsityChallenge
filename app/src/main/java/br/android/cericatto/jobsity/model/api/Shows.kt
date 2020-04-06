@@ -1,7 +1,7 @@
-package br.android.cericatto.jobsity.model
+package br.android.cericatto.jobsity.model.api
 
 data class Shows(
-    val id: Long,
+    val id: Int,
     val name: String,
     val image: Image,
     val schedule: Schedule,

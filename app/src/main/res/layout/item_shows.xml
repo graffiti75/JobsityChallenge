@@ -27,7 +27,7 @@
             android:id="@+id/item_shows__name_text_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/black_transparent_60"
+            android:background="@color/black_transparent_65"
             android:maxLines="2"
             android:padding="20dp"
             android:textColor="@color/colorAccentLight"
