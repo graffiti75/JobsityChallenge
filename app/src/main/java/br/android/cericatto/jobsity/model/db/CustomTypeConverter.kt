@@ -35,20 +35,6 @@ class CustomTypeConverter {
         return gson.toJson(imageBean)
     }
 
-    /*
-    @TypeConverter
-    fun stringToGenresBean(data: String?): List<String>? {
-        val type = genericType<Image>()
-        return gson.fromJson(data, type)
-    }
-
-    @TypeConverter
-    fun genresBeanToString(genresBean: List<String>?): String? {
-        val gson = Gson()
-        return gson.toJson(genresBean)
-    }
-     */
-
     @TypeConverter
     fun fromString(value: String?): List<String>? {
         val listType: Type = object : TypeToken<ArrayList<String>?>() {}.type

@@ -7,4 +7,11 @@
         android:icon="@drawable/ic_search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom" />
+
+<!--    <item-->
+<!--        android:id="@+id/favorite"-->
+<!--        android:title="@string/search_title"-->
+<!--        android:icon="@drawable/ic_favorite_black"-->
+<!--        app:actionViewClass="android.widget.SearchView"-->
+<!--        app:showAsAction="ifRoom" />-->
 </menu>
