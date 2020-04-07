@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -61,8 +62,14 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:$MOSHI_VERSION"
     implementation "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
 
+    // Architecture Components.
+    implementation "androidx.lifecycle:lifecycle-extensions:$ANDROID_ARCH_VERSION"
+    implementation "androidx.room:room-runtime:$ANDROID_ARCH_VERSION"
+    kapt "androidx.lifecycle:lifecycle-compiler:$ANDROID_ARCH_VERSION"
+    kapt "androidx.room:room-compiler:$ANDROID_ARCH_VERSION"
+
     // Others.
-    implementation "android.arch.lifecycle:extensions:$ARCH_VERSION"
+//    implementation "android.arch.lifecycle:extensions:$ARCH_VERSION"
     implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
     implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
     implementation "com.google.code.gson:gson:$GSON_VERSION"

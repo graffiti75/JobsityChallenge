@@ -3,9 +3,7 @@ package br.android.cericatto.jobsity.view.activity
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import br.android.cericatto.jobsity.presenter.utils.NavigationUtils
-import kotlinx.android.synthetic.main.toolbar.*
 
 open class ParentActivity : AppCompatActivity() {
 

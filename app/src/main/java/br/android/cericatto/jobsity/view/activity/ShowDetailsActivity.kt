@@ -1,14 +1,18 @@
 package br.android.cericatto.jobsity.view.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.text.Html
 import android.view.View
+import androidx.lifecycle.Observer
 import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.MainApplication
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.api.Episode
 import br.android.cericatto.jobsity.model.api.Shows
+import br.android.cericatto.jobsity.model.db.AppDatabase
+import br.android.cericatto.jobsity.model.db.AppExecutors
+import br.android.cericatto.jobsity.model.db.ShowsDao
 import br.android.cericatto.jobsity.presenter.extensions.networkOn
 import br.android.cericatto.jobsity.presenter.extensions.showToast
 import br.android.cericatto.jobsity.view.adapter.EpisodesAdapter
@@ -22,6 +26,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_show_details.*
 import timber.log.Timber
 
+@SuppressLint("LogNotTimber")
 class ShowDetailsActivity : ParentActivity() {
 
     //--------------------------------------------------
@@ -30,7 +35,11 @@ class ShowDetailsActivity : ParentActivity() {
 
     private val mComposite = CompositeDisposable()
     private var mShowId = 0
+
+    private lateinit var mDatabase: AppDatabase
+    private lateinit var mShowsDao: ShowsDao
     private var mFavorite = false
+    private lateinit var mCurrentShow: Shows
 
     //--------------------------------------------------
     // Activity Life Cycle
@@ -41,7 +50,6 @@ class ShowDetailsActivity : ParentActivity() {
         setContentView(R.layout.activity_show_details)
 
         getExtras()
-
     }
 
     override fun onDestroy() {
@@ -50,48 +58,104 @@ class ShowDetailsActivity : ParentActivity() {
     }
 
     //--------------------------------------------------
-    // Methods
+    // Main Methods
     //--------------------------------------------------
 
     private fun getExtras() {
         val extras = intent.extras
         val json = extras!!.getString(AppConfiguration.CURRENT_SHOW_EXTRA)
-        val jsonType = object : TypeToken<Shows>(){}.type
-        var currentShow: Shows = Gson().fromJson(json, jsonType)
-        setToolbar(R.id.id_toolbar, homeEnabled = true, title = currentShow.name)
-        mShowId = currentShow.id
-        initLayout(currentShow)
+        val jsonType = object : TypeToken<Shows>() {}.type
+        mCurrentShow = Gson().fromJson(json, jsonType)
+        setToolbar(R.id.id_toolbar, homeEnabled = true, title = mCurrentShow.name)
+        mShowId = mCurrentShow.id
+        setDetailsData()
     }
 
-    private fun initLayout(currentShow: Shows) {
+    private fun setDetailsData() {
+        initDatabase()
+        checkCurrentShow()
+        initLayout()
+    }
+
+    //--------------------------------------------------
+    // Layout Methods
+    //--------------------------------------------------
+
+    private fun initLayout() {
         Glide.with(activity_show_details__image_view)
-            .load(currentShow.image.original)
+            .load(mCurrentShow.image.original)
             .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
             .into(activity_show_details__image_view)
 
-        activity_show_details__name_text_view.text = currentShow.name
-
-        activity_show_details__schedule_days_text_view.text = currentShow.schedule.days?.joinToString(separator = ", ") { it }
-
-        if (currentShow.schedule.time.isEmpty()) {
-            activity_show_details__schedule_time_text_view.visibility = View.GONE
-        } else {
-            activity_show_details__schedule_time_text_view.text = currentShow.schedule.time
-        }
-
-        activity_show_details__genres_text_view.text = currentShow.genres?.joinToString(separator = ", ") { it }
-        activity_show_details__summary_text_view.text = Html.fromHtml(currentShow.summary)
+        setTextViews()
 
         activity_show_details__favorite_image_view.setOnClickListener {
-            mFavorite = !mFavorite
-            var drawableId = R.drawable.ic_favorite_border
-            if (mFavorite) {
-                drawableId = R.drawable.ic_favorite
-            }
-            it.setBackgroundResource(drawableId)
+            checkShowIsFavorite()
         }
 
         getEpisodes()
+    }
+
+    private fun setTextViews() {
+        activity_show_details__name_text_view.text = mCurrentShow.name
+
+        activity_show_details__schedule_days_text_view.text =
+            mCurrentShow.schedule.days?.joinToString(separator = ", ") { it }
+
+        if (mCurrentShow.schedule.time.isEmpty()) {
+            activity_show_details__schedule_time_text_view.visibility = View.GONE
+        } else {
+            activity_show_details__schedule_time_text_view.text = mCurrentShow.schedule.time
+        }
+
+        activity_show_details__genres_text_view.text =
+            mCurrentShow.genres?.joinToString(separator = ", ") { it }
+        activity_show_details__summary_text_view.text = Html.fromHtml(mCurrentShow.summary)
+    }
+
+    private fun updateDrawable() {
+        var drawableId = R.drawable.ic_favorite_border
+        if (mFavorite) {
+            drawableId = R.drawable.ic_favorite
+        }
+        activity_show_details__favorite_image_view.setBackgroundResource(drawableId)
+    }
+
+    private fun setAdapter(list: MutableList<Episode>) {
+        activity_show_details__recycler_view.adapter = EpisodesAdapter(this, list)
+    }
+
+    //--------------------------------------------------
+    // Database Methods
+    //--------------------------------------------------
+
+    private fun initDatabase() {
+        mDatabase = AppDatabase.getInstance(applicationContext)
+        mShowsDao = mDatabase.showsDao()
+    }
+
+    private fun checkCurrentShow() {
+        mShowsDao.getShow(mCurrentShow.id).observe(this, Observer {
+            if (it != null) {
+                mFavorite = it.favorite
+                mCurrentShow = it
+                updateDrawable()
+            }
+        })
+    }
+
+    private fun checkShowIsFavorite() {
+        if (!mFavorite) {
+            AppExecutors.instance?.diskIO()?.execute {
+                mShowsDao.insert(mCurrentShow.copy(favorite = !mFavorite))
+            }
+        } else {
+            AppExecutors.instance?.diskIO()?.execute {
+                mShowsDao.delete(mCurrentShow)
+                mFavorite = !mFavorite
+                updateDrawable()
+            }
+        }
     }
 
     private fun updateVisibilities(loading: Boolean = true) {
@@ -105,7 +169,7 @@ class ShowDetailsActivity : ParentActivity() {
     }
 
     //--------------------------------------------------
-    // Episodes Methods
+    // Episode Methods
     //--------------------------------------------------
 
     private fun getEpisodes() {
@@ -133,12 +197,6 @@ class ShowDetailsActivity : ParentActivity() {
 
     private fun getEpisodesOnSuccess(list: MutableList<Episode>) {
         setAdapter(list)
-//        Handler().postDelayed({
-            updateVisibilities(false)
-//        }, 2000)
-    }
-
-    private fun setAdapter(list: MutableList<Episode>) {
-        activity_show_details__recycler_view.adapter = EpisodesAdapter(this, list)
+        updateVisibilities(false)
     }
 }

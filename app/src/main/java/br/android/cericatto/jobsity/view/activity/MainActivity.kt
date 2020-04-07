@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import androidx.lifecycle.ViewModelProviders
@@ -128,10 +127,19 @@ class MainActivity : ParentActivity() {
     private fun checkSavedInstanceState(savedInstanceState: Bundle?) {
         Log.i(AppConfiguration.TAG, "checkSavedInstanceState().")
         mListState = savedInstanceState?.getParcelable(LIST_POSITION_STATE)
-        if (savedInstanceState == null) {   // Get shows from API.
+
+        /*
+         * Get shows from API.
+         */
+        if (savedInstanceState == null) {
             Log.i(AppConfiguration.TAG, "checkSavedInstanceState() -> savedInstanceState is null.")
             getShows()
-        } else {                            // Get cached shows from ViewModel.
+        }
+
+        /*
+         * Get cached shows from ViewModel.
+         */
+        else {
             Log.i(AppConfiguration.TAG, "checkSavedInstanceState() -> savedInstanceState is NOT null.")
             val viewModel = ViewModelProviders
                 .of(this)
@@ -185,27 +193,25 @@ class MainActivity : ParentActivity() {
     }
 
     private fun searchShows(query: String) {
-//        if (mShowsViewModel.page <= mShowsViewModel.pagesNeeded) {
-            val subscription = MainApplication.service.search(query)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        val list: MutableList<Shows> = it.map {
-                            data -> data.show
-                        } as MutableList<Shows>
-                        mIsToolbarMenuSearch = true
-                        getShowsOnSuccess(list)
-                    },
-                    {
-                        Timber.i("searchShows() -> On error: $it")
-                    },
-                    {
-                        Timber.i("searchShows() -> On Completed.")
-                    }
-                )
-            mComposite.add(subscription)
-//        }
+        val subscription = MainApplication.service.search(query)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    val list: MutableList<Shows> = it.map {
+                        data -> data.show
+                    } as MutableList<Shows>
+                    mIsToolbarMenuSearch = true
+                    getShowsOnSuccess(list)
+                },
+                {
+                    Timber.i("searchShows() -> On error: $it")
+                },
+                {
+                    Timber.i("searchShows() -> On Completed.")
+                }
+            )
+        mComposite.add(subscription)
     }
 
     //--------------------------------------------------

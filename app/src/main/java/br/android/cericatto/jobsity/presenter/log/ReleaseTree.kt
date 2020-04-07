@@ -1,4 +1,4 @@
-package br.android.cericatto.jobsity.presenter.utils.log
+package br.android.cericatto.jobsity.presenter.log
 
 import android.util.Log
 import timber.log.Timber

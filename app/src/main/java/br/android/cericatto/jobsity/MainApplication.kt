@@ -2,8 +2,8 @@ package br.android.cericatto.jobsity
 
 import android.app.Application
 import br.android.cericatto.jobsity.model.retrofit.ApiService
-import br.android.cericatto.jobsity.presenter.utils.log.LineNumberDebugTree
-import br.android.cericatto.jobsity.presenter.utils.log.ReleaseTree
+import br.android.cericatto.jobsity.presenter.log.LineNumberDebugTree
+import br.android.cericatto.jobsity.presenter.log.ReleaseTree
 import timber.log.Timber
 
 open class MainApplication : Application() {

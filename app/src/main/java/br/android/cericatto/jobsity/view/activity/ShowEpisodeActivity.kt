@@ -12,7 +12,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_show_details.*
 import kotlinx.android.synthetic.main.activity_show_episode.*
 
 class ShowEpisodeActivity : ParentActivity() {
