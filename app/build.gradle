@@ -78,4 +78,5 @@ dependencies {
     testImplementation "junit:junit:$JUNIT_VERSION"
     androidTestImplementation "androidx.test.ext:junit:$JUNIT_EXT"
     androidTestImplementation "androidx.test.espresso:espresso-core:$EXPRESSO_VERSION"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 }
