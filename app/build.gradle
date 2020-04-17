@@ -83,4 +83,5 @@ dependencies {
     androidTestImplementation "com.jakewharton.espresso:okhttp3-idling-resource:$OKHTTP_IDLING_RESOURCE_VERSION"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$OKHTTP_MOCK_WEB_SERVER"
     androidTestImplementation "androidx.test:rules:$TEST_RULES_VERSION"
+    androidTestImplementation "androidx.arch.core:core-testing:$ARCH_CORE_TESTING_VERSION"
 }

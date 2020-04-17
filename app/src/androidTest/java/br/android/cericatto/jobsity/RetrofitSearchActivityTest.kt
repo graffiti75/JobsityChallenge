@@ -22,6 +22,14 @@ class RetrofitSearchActivityTest {
     @get:Rule
     var rule = OkHttpIdlingResourceRule()
 
+//    @get:Rule
+//    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    // FIXME: Apply the Coroutine Test Rule:
+    // Source: https://craigrussell.io/2019/11/unit-testing-coroutine-suspend-functions-using-testcoroutinedispatcher/
+//    @get:Rule
+//    val coroutineTestRule = CoroutineTestRule()
+
     private val mockWebServer = MockWebServer()
     private val portNumber = 8080
 

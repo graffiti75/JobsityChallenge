@@ -30,6 +30,12 @@ interface ShowsDao {
     @Delete
     fun delete(show: Shows): Int
 
+    @Query("DELETE FROM Shows")
+    fun deleteAll()
+
     @Update
     fun update(show: Shows)
+
+    @Query("SELECT count(*) FROM Shows")
+    fun getShowsCount(): Int
 }

@@ -36,7 +36,6 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
     private val mComposite = CompositeDisposable()
     private var mShowId = 0
 
-    private lateinit var mDatabase: AppDatabase
     private lateinit var mShowsDao: ShowsDao
     private var mFavorite = false
     private lateinit var mCurrentShow: Shows
@@ -122,8 +121,7 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
      */
 
     override fun initDatabase() {
-        mDatabase = AppDatabase.getInstance(mActivity.applicationContext)
-        mShowsDao = mDatabase.showsDao()
+        mShowsDao = AppDatabase.getInstance(mActivity.applicationContext)
     }
 
     override fun checkCurrentShow() {
