@@ -25,4 +25,6 @@
     <string name="activity_show_episode__summary">Summary:</string>
 
     <string name="favorites_title">Favorite Series</string>
+
+    <string name="error_searching_shows">Error searching shows.</string>
 </resources>

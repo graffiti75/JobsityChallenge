@@ -6,8 +6,10 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import br.android.cericatto.jobsity.rules.CoroutineTestRule
 import br.android.cericatto.jobsity.rules.OkHttpIdlingResourceRule
 import br.android.cericatto.jobsity.view.activity.test.RetrofitSearchActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -18,17 +20,10 @@ import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
+@ExperimentalCoroutinesApi
 class RetrofitSearchActivityTest {
     @get:Rule
     var rule = OkHttpIdlingResourceRule()
-
-//    @get:Rule
-//    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    // FIXME: Apply the Coroutine Test Rule:
-    // Source: https://craigrussell.io/2019/11/unit-testing-coroutine-suspend-functions-using-testcoroutinedispatcher/
-//    @get:Rule
-//    val coroutineTestRule = CoroutineTestRule()
 
     private val mockWebServer = MockWebServer()
     private val portNumber = 8080

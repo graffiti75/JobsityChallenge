@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.BuildConfig
 import br.android.cericatto.jobsity.model.retrofit.ApiService
+import br.android.cericatto.jobsity.model.retrofit.TestService
 import br.android.cericatto.jobsity.presenter.utils.NavigationUtils
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
@@ -110,6 +111,10 @@ fun Context.networkOn(): Boolean {
 //--------------------------------------------------
 // Retrofit Methods
 //--------------------------------------------------
+
+fun Context.initTestService(): TestService {
+    return initRetrofit().create(TestService::class.java)
+}
 
 fun Context.initApiService(): ApiService {
     return initRetrofit().create(ApiService::class.java)

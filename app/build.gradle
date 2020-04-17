@@ -36,45 +36,56 @@ android {
 }
 
 dependencies {
+    // ----- Default -----
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.2.0'
 
-    // Support.
+    // ----- Support -----
     implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
     implementation "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
     implementation "androidx.recyclerview:recyclerview:$ANDROIDX_VERSION"
     implementation "androidx.cardview:cardview:$CARD_VIEW_VERSION"
     implementation "com.google.android.material:material:$MATERIAL_VERSION"
 
-    // RxJava2.
+    // ----- RxJava2 -----
     implementation "io.reactivex.rxjava2:rxandroid:$RX_ANDROID_VERSION"
     implementation "io.reactivex.rxjava2:rxkotlin:$RX_KOTLIN_VERSION"
     implementation "io.reactivex.rxjava2:rxjava:$RX_JAVA_VERSION"
 
-    // RxJava2 with Retrofit.
+    // ----- RxJava2 with Retrofit -----
     implementation "com.squareup.retrofit2:adapter-rxjava2:$ADAPTER_RX_JAVA_VERSION"
     implementation "com.jakewharton.rxbinding:rxbinding:$RX_BINDING_VERSION"
     implementation "com.squareup.okhttp3:logging-interceptor:$LOGGING_INTERCEPTOR_VERSION"
 
-    // Retrofit.
+    // ----- Retrofit -----
     implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
     implementation "com.squareup.retrofit2:converter-moshi:$MOSHI_VERSION"
     implementation "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
 
-    // Architecture Components.
+    // ----- Architecture Components -----
     implementation "androidx.lifecycle:lifecycle-extensions:$ANDROID_ARCH_VERSION"
     implementation "androidx.room:room-runtime:$ANDROID_ARCH_VERSION"
     kapt "androidx.lifecycle:lifecycle-compiler:$ANDROID_ARCH_VERSION"
     kapt "androidx.room:room-compiler:$ANDROID_ARCH_VERSION"
 
-    // Others.
+    // ----- Others -----
 //    implementation "android.arch.lifecycle:extensions:$ARCH_VERSION"
     implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
     implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
     implementation "com.google.code.gson:gson:$GSON_VERSION"
 
-    // Tests.
+    // ----- Coroutines -----
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINES_VERSION"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINES_VERSION"
+
+    // testImplementation for pure JVM Unit Tests.
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$COROUTINES_VERSION"
+
+    // androidTestImplementation for Android Instrumentation Tests.
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$COROUTINES_VERSION"
+
+    // ----- Tests -----
     testImplementation "junit:junit:$JUNIT_VERSION"
     androidTestImplementation "androidx.test.ext:junit:$JUNIT_EXT"
     androidTestImplementation "androidx.test.espresso:espresso-core:$EXPRESSO_VERSION"
