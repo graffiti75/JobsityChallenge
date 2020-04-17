@@ -9,4 +9,8 @@ object AppConfiguration {
 
     const val SHOW_DETAILS_TO_EPISODE_DETAILS_CODE = 2001
     const val CURRENT_EPISODE_EXTRA = "current_episode_extra"
+
+    const val TEST_SEARCH_ID = "139"
+    const val TEST_SEARCH_NAME = "Girls"
+    const val TEST_SEARCH_SCORE = "17.602106"
 }

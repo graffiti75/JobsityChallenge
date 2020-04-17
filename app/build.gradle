@@ -79,4 +79,8 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$JUNIT_EXT"
     androidTestImplementation "androidx.test.espresso:espresso-core:$EXPRESSO_VERSION"
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+
+    androidTestImplementation "com.jakewharton.espresso:okhttp3-idling-resource:$OKHTTP_IDLING_RESOURCE_VERSION"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$OKHTTP_MOCK_WEB_SERVER"
+    androidTestImplementation "androidx.test:rules:$TEST_RULES_VERSION"
 }
