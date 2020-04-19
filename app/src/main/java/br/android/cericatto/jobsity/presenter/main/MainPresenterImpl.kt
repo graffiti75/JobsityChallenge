@@ -162,8 +162,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
             .subscribe(
                 {
                     val list: MutableList<Shows> = it.map {
-                            data -> data.show
-                    } as MutableList<Shows>
+                        data -> data.show } as MutableList<Shows>
                     mIsToolbarMenuSearch = true
                     getShowsOnSuccess(list)
                 },
@@ -191,6 +190,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
     override fun getShowsOnSuccess(list: MutableList<Shows>, searchPerformed: Boolean) {
         if (searchPerformed) {
             mShowsList.addAll(list)
+            setAdapter(mShowsList)
         } else {
             setRecyclerViewScrollListener()
             if (mViewModel.page > 0) {
