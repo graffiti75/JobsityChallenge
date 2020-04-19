@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="160dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/activity_show_details__image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -34,7 +34,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/black_transparent_30" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/activity_show_details__favorite_image_view"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -48,7 +48,7 @@
 
         <!-- Schedule -->
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             style="@style/ShowDetails_LabelTextView"
             android:text="@string/activity_show_details__schedule" />
 
@@ -59,7 +59,7 @@
             android:orientation="horizontal"
             android:weightSum="4">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/activity_show_details__schedule_days_text_view"
                 style="@style/ShowDetails_TextView"
                 android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
                 android:maxLines="2"
                 tools:text="Thursday" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/activity_show_details__schedule_time_text_view"
                 style="@style/ShowDetails_TextView"
                 android:layout_width="wrap_content"
@@ -79,11 +79,11 @@
 
         <!-- Gender -->
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             style="@style/ShowDetails_LabelTextView"
             android:text="@string/activity_show_details__gender" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/activity_show_details__genres_text_view"
             style="@style/ShowDetails_TextView"
             android:layout_marginBottom="10dp"
@@ -92,7 +92,7 @@
 
         <!-- Episodes -->
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             style="@style/ShowDetails_LabelTextView"
             android:text="@string/activity_show_details__episodes" />
 
@@ -109,7 +109,7 @@
             tools:itemCount="10"
             tools:listitem="@layout/item_episodes" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/activity_show_details__empty_recycler_text_view"
             style="@style/ShowDetails_TextView"
             android:layout_marginBottom="10dp"
@@ -120,7 +120,7 @@
 
         <!-- Summary -->
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             style="@style/ShowDetails_LabelTextView"
             android:text="@string/activity_show_details__summary" />
 
@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/activity_show_details__summary_text_view"
                 style="@style/ShowDetails_TextView"
                 android:layout_marginBottom="15dp"
