@@ -53,7 +53,7 @@ class ShowsAdapter(
         }
 
         setImage(holder, item)
-        holder.nameTextView.text = item.name
+        setName(holder, item)
     }
 
     //--------------------------------------------------
@@ -63,6 +63,11 @@ class ShowsAdapter(
     fun updateList(list: MutableList<Shows>) {
         mDataList.addAll(list)
         notifyDataSetChanged()
+    }
+
+    private fun setName(holder: ShowsViewHolder, item: Shows?) {
+        if (!item!!.name.isNullOrBlank() || !item!!.name.isNullOrEmpty())
+            holder.nameTextView.text = item.name
     }
 
     private fun setImage(holder: ShowsViewHolder, item: Shows?) {
