@@ -6,12 +6,14 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.text.Html
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.BuildConfig
+import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.retrofit.ApiService
-import br.android.cericatto.jobsity.model.retrofit.TestService
 import br.android.cericatto.jobsity.presenter.utils.NavigationUtils
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,8 +23,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 //--------------------------------------------------
@@ -33,6 +33,53 @@ fun Context.showToast(message: Int) {
     Toast.makeText(this, this.getString(message), Toast.LENGTH_LONG).show()
 }
 
+/*
+fun String.trimStartEnd(): String {
+    val text = this.trimStart()
+    return text.trimEnd()
+}
+ */
+
+fun Context.checkTextView(text: String?, textView: TextView) {
+    val fieldNull = text == null
+    var fieldEmpty = true
+    if (!fieldNull) {
+        if (text != null) {
+            fieldEmpty = text.isEmpty()
+        }
+    }
+    if (fieldNull || fieldEmpty) {
+        textView.text = this.getEmptyField()
+    } else {
+        textView.text = text
+    }
+}
+
+@Suppress("DEPRECATION")
+fun Context.checkSpannedTextView(text: String?, textView: TextView) {
+    val fieldNull = text == null
+    var fieldEmpty = true
+    if (!fieldNull) {
+        if (text != null) {
+            fieldEmpty = text.isEmpty()
+        }
+    }
+    if (fieldNull || fieldEmpty) {
+        textView.text = this.getEmptyField()
+    } else {
+        textView.text = Html.fromHtml(text)
+    }
+}
+
+fun Context.getEmptyField(): String {
+    return this.getString(R.string.activity_show_details__empty_field)
+}
+
+//--------------------------------------------------
+// Intent Methods
+//--------------------------------------------------
+
+/*
 fun AppCompatActivity.openActivity(clazz: Class<*>) {
     val intent = Intent(this, clazz)
     this.startActivity(intent)
@@ -47,6 +94,7 @@ fun AppCompatActivity.openActivityExtras(clazz: Class<*>, key: String, value: An
     this.startActivity(intent)
     NavigationUtils.animate(this, NavigationUtils.Animation.GO)
 }
+ */
 
 fun AppCompatActivity.openActivityForResultWithExtras(clazz: Class<*>, code: Int, key: String, value: Any) {
     val intent = Intent(this, clazz)
@@ -65,18 +113,6 @@ private fun getExtra(extras: Bundle, key: String, value: Any): Bundle {
         is Boolean -> extras.putBoolean(key, value)
     }
     return extras
-}
-
-fun String.trimStartEnd(): String {
-    var text = this.trimStart()
-    return text.trimEnd()
-}
-
-fun Long.getDate(dateFormat: String): String? {
-    val formatter = SimpleDateFormat(dateFormat)
-    val calendar = Calendar.getInstance()
-    calendar.timeInMillis = this
-    return formatter.format(calendar.time)
 }
 
 @Suppress("DEPRECATION")
@@ -112,9 +148,11 @@ fun Context.networkOn(): Boolean {
 // Retrofit Methods
 //--------------------------------------------------
 
+/*
 fun Context.initTestService(): TestService {
     return initRetrofit().create(TestService::class.java)
 }
+ */
 
 fun Context.initApiService(): ApiService {
     return initRetrofit().create(ApiService::class.java)

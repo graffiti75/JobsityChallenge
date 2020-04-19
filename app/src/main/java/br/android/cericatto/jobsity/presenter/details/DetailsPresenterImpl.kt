@@ -1,6 +1,5 @@
 package br.android.cericatto.jobsity.presenter.details
 
-import android.text.Html
 import android.view.View
 import androidx.lifecycle.Observer
 import br.android.cericatto.jobsity.AppConfiguration
@@ -11,6 +10,8 @@ import br.android.cericatto.jobsity.model.api.Shows
 import br.android.cericatto.jobsity.model.db.AppDatabase
 import br.android.cericatto.jobsity.model.db.AppExecutors
 import br.android.cericatto.jobsity.model.db.ShowsDao
+import br.android.cericatto.jobsity.presenter.extensions.checkSpannedTextView
+import br.android.cericatto.jobsity.presenter.extensions.getEmptyField
 import br.android.cericatto.jobsity.presenter.extensions.networkOn
 import br.android.cericatto.jobsity.presenter.extensions.showToast
 import br.android.cericatto.jobsity.view.activity.ShowDetailsActivity
@@ -53,7 +54,7 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
         val json = extras!!.getString(AppConfiguration.CURRENT_SHOW_EXTRA)
         val jsonType = object : TypeToken<Shows>() {}.type
         mCurrentShow = Gson().fromJson(json, jsonType)
-        mActivity.setToolbar(R.id.id_toolbar, homeEnabled = true, title = mCurrentShow.name)
+        mActivity.setToolbar(R.id.id_toolbar, homeEnabled = true, title = mCurrentShow.name!!)
         mShowId = mCurrentShow.id
         setDetailsData()
     }
@@ -73,12 +74,8 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
      */
 
     override fun initLayout() {
-        Glide.with(mActivity.activity_show_details__image_view)
-            .load(mCurrentShow.image.original)
-            .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
-            .into(mActivity.activity_show_details__image_view)
-
         setTextViews()
+        setImage()
 
         mActivity.activity_show_details__favorite_image_view.setOnClickListener {
             checkShowIsFavorite()
@@ -88,20 +85,102 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
     }
 
     override fun setTextViews() {
-        mActivity.activity_show_details__name_text_view.text = mCurrentShow.name
+        setSchedule()
+        setGender()
+        setSummary()
+    }
 
-        mActivity.activity_show_details__schedule_days_text_view.text =
-            mCurrentShow.schedule.days?.joinToString(separator = ", ") { it }
+    override fun setImage() {
+        val imageView = mActivity.activity_show_details__image_view
 
-        if (mCurrentShow.schedule.time.isEmpty()) {
+        val imageNull = mCurrentShow.image == null
+        val originalImageNull: Boolean
+        val originalImageEmpty: Boolean
+        if (!imageNull) {
+            originalImageNull = mCurrentShow.image!!.original == null
+            if (!originalImageNull) {
+                originalImageEmpty = mCurrentShow.image!!.original!!.isEmpty()
+                if (!originalImageEmpty) {
+                    Glide.with(imageView)
+                        .load(mCurrentShow.image!!.original)
+                        .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
+                        .into(imageView)
+                }
+            }
+        }
+
+        /*
+        Glide.with(mActivity.activity_show_details__image_view)
+            .load(mCurrentShow.image.original)
+            .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
+            .into(mActivity.activity_show_details__image_view)
+         */
+    }
+
+    override fun setSchedule() {
+        val scheduleDaysNull = mCurrentShow.schedule.days == null
+        val scheduleTimeNull = mCurrentShow.schedule.time == null
+        var scheduleDaysEmpty = true
+        var scheduleTimeEmpty  = true
+        if (!scheduleDaysNull) {
+            scheduleDaysEmpty = mCurrentShow.schedule.days!!.isEmpty()
+        }
+        if (!scheduleTimeNull) {
+            scheduleTimeEmpty  = mCurrentShow.schedule.time!!.isEmpty()
+        }
+
+        val invalidFields = scheduleDaysEmpty || scheduleTimeEmpty || scheduleDaysNull || scheduleTimeNull
+        if (invalidFields) {
+            mActivity.activity_show_details__schedule_days_text_view.text = mActivity.getEmptyField()
             mActivity.activity_show_details__schedule_time_text_view.visibility = View.GONE
         } else {
+            mActivity.activity_show_details__schedule_days_text_view.text =
+                mCurrentShow.schedule.days?.joinToString(separator = ", ") { it }
             mActivity.activity_show_details__schedule_time_text_view.text = mCurrentShow.schedule.time
         }
 
-        mActivity.activity_show_details__genres_text_view.text =
-            mCurrentShow.genres?.joinToString(separator = ", ") { it }
-        mActivity.activity_show_details__summary_text_view.text = Html.fromHtml(mCurrentShow.summary)
+        /*
+        val scheduleDaysEmpty = mCurrentShow.schedule.days!!.isEmpty()
+        val scheduleTimeEmpty  = mCurrentShow.schedule.time.isEmpty()
+        if (scheduleDaysEmpty || scheduleTimeEmpty) {
+            mActivity.activity_show_details__schedule_days_text_view.text = mActivity.getEmptyField()
+            mActivity.activity_show_details__schedule_time_text_view.visibility = View.GONE
+        } else {
+            mActivity.activity_show_details__schedule_days_text_view.text =
+                mCurrentShow.schedule.days?.joinToString(separator = ", ") { it }
+            mActivity.activity_show_details__schedule_time_text_view.text = mCurrentShow.schedule.time
+        }
+         */
+    }
+
+    override fun setGender() {
+        val genderNull = mCurrentShow.genres == null
+        var genderEmpty = true
+        if (!genderNull) {
+            genderEmpty = mCurrentShow.genres!!.isEmpty()
+        }
+
+        val invalidFields = genderEmpty || genderNull
+        if (invalidFields) {
+            mActivity.activity_show_details__genres_text_view.text = mActivity.getEmptyField()
+        } else {
+            mActivity.activity_show_details__genres_text_view.text =
+                mCurrentShow.genres?.joinToString(separator = ", ") { it }
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    override fun setSummary() {
+        mActivity.checkSpannedTextView(text = mCurrentShow.summary,
+            textView = mActivity.activity_show_details__summary_text_view)
+        /*
+        val summaryEmpty = mCurrentShow.summary.isEmpty()
+        if (summaryEmpty) {
+            mActivity.activity_show_details__summary_text_view.text = getEmptyField()
+        } else {
+            mActivity.activity_show_details__summary_text_view.text = Html.fromHtml(mCurrentShow.summary)
+        }
+         */
     }
 
     override fun updateDrawable() {
@@ -148,14 +227,9 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
         }
     }
 
-    override fun updateVisibilities(loading: Boolean) {
-        if (loading) {
-            mActivity.activity_show_details__container.visibility = View.GONE
-            mActivity.activity_show_details__loading.visibility = View.VISIBLE
-        } else {
-            mActivity.activity_show_details__container.visibility = View.VISIBLE
-            mActivity.activity_show_details__loading.visibility = View.GONE
-        }
+    override fun updateVisibilities() {
+        mActivity.activity_show_details__container.visibility = View.VISIBLE
+        mActivity.activity_show_details__loading.visibility = View.GONE
     }
 
     /*
@@ -186,7 +260,15 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
     }
 
     override fun getEpisodesOnSuccess(list: MutableList<Episode>) {
-        setAdapter(list)
-        updateVisibilities(false)
+        val listEmpty = list.isEmpty()
+        if (listEmpty) {
+            mActivity.activity_show_details__recycler_view.visibility = View.GONE
+            mActivity.activity_show_details__empty_recycler_text_view.visibility = View.VISIBLE
+        } else {
+            mActivity.activity_show_details__recycler_view.visibility = View.VISIBLE
+            mActivity.activity_show_details__empty_recycler_text_view.visibility = View.GONE
+            setAdapter(list)
+        }
+        updateVisibilities()
     }
 }

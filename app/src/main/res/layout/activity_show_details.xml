@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -29,17 +29,10 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_image_placeholder" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/activity_show_details__name_text_view"
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/black_transparent_30"
-                android:maxLines="2"
-                android:padding="20dp"
-                android:textColor="@color/colorAccentLight"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                tools:text="Under the Dome" />
+                android:background="@color/black_transparent_30" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/activity_show_details__favorite_image_view"
@@ -56,16 +49,8 @@
         <!-- Schedule -->
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:maxLines="2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/activity_show_details__schedule"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            style="@style/ShowDetails_LabelTextView"
+            android:text="@string/activity_show_details__schedule" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,69 +61,40 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/activity_show_details__schedule_days_text_view"
+                style="@style/ShowDetails_TextView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:maxLines="2"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="18sp"
                 tools:text="Thursday" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/activity_show_details__schedule_time_text_view"
+                style="@style/ShowDetails_TextView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:maxLines="3"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="18sp"
                 tools:text="22:00" />
         </LinearLayout>
 
         <!-- Gender -->
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/activity_show_details__gender"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            style="@style/ShowDetails_LabelTextView"
+            android:text="@string/activity_show_details__gender" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/activity_show_details__genres_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ShowDetails_TextView"
             android:layout_marginBottom="10dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/black"
-            android:textSize="20sp"
+            android:text="@string/activity_show_details__empty_field"
             tools:text="Drama, Science-Fiction, Thriller" />
 
         <!-- Episodes -->
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:maxLines="2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/activity_show_details__episodes"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            style="@style/ShowDetails_LabelTextView"
+            android:text="@string/activity_show_details__episodes" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/activity_show_details__recycler_view"
@@ -153,21 +109,20 @@
             tools:itemCount="10"
             tools:listitem="@layout/item_episodes" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/activity_show_details__empty_recycler_text_view"
+            style="@style/ShowDetails_TextView"
+            android:layout_marginBottom="10dp"
+            android:text="@string/activity_show_details__empty_field"
+            android:visibility="gone" />
+
         <!--=============== BOTTOM ===============-->
 
         <!-- Summary -->
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:maxLines="2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/activity_show_details__summary"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            style="@style/ShowDetails_LabelTextView"
+            android:text="@string/activity_show_details__summary" />
 
         <ScrollView
             style="@style/RecyclerView_ScrollbarStyle"
@@ -177,13 +132,9 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/activity_show_details__summary_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/ShowDetails_TextView"
                 android:layout_marginBottom="15dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/grey_800"
-                android:textSize="18sp"
+                android:text="@string/activity_show_details__empty_field"
                 tools:text="@string/item_shows__summary" />
         </ScrollView>
     </LinearLayout>
@@ -193,6 +144,6 @@
         layout="@layout/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="visible" />
 </LinearLayout>
 

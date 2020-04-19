@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -26,20 +26,13 @@
                 android:id="@+id/activity_show_episode__image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_image_placeholder" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/activity_show_episode__name_text_view"
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/black_transparent_30"
-                android:maxLines="2"
-                android:padding="20dp"
-                android:textColor="@color/colorAccentLight"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                tools:text="The Fire" />
+                android:background="@color/black_transparent_30" />
         </FrameLayout>
 
         <!--=============== MIDDLE ===============-->

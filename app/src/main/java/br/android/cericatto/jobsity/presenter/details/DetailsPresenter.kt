@@ -18,6 +18,10 @@ interface DetailsPresenter {
 
     fun initLayout()
     fun setTextViews()
+    fun setImage()
+    fun setSchedule()
+    fun setGender()
+    fun setSummary()
     fun updateDrawable()
     fun setAdapter(list: MutableList<Episode>)
 
@@ -28,7 +32,7 @@ interface DetailsPresenter {
     fun initDatabase()
     fun checkCurrentShow()
     fun checkShowIsFavorite()
-    fun updateVisibilities(loading: Boolean = true)
+    fun updateVisibilities()
 
     /*
      * Episode Methods.

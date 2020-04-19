@@ -44,7 +44,6 @@ class ShowsAdapter(
         val item = mDataList[position]
         MainApplication.currentAdapterShowId = item.id
 
-        val url = item.image.medium
         holder.container.setOnClickListener {
             val json: String = Gson().toJson(item)
             mActivity.openActivityForResultWithExtras(
@@ -53,11 +52,7 @@ class ShowsAdapter(
             )
         }
 
-        Glide.with(holder.showImageView)
-            .load(url)
-            .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
-            .into(holder.showImageView)
-
+        setImage(holder, item)
         holder.nameTextView.text = item.name
     }
 
@@ -68,6 +63,37 @@ class ShowsAdapter(
     fun updateList(list: MutableList<Shows>) {
         mDataList.addAll(list)
         notifyDataSetChanged()
+    }
+
+    private fun setImage(holder: ShowsViewHolder, item: Shows?) {
+        val imageView = holder.showImageView
+        val textView = holder.nameTextView
+
+        val imageNull = item!!.image == null
+        val originalImageNull: Boolean
+        val originalImageEmpty: Boolean
+        if (imageNull) textView.text = ""
+        else {
+            originalImageNull = item.image!!.medium == null
+            if (originalImageNull) textView.text = ""
+            else {
+                originalImageEmpty = item.image.medium!!.isEmpty()
+                if (originalImageEmpty) textView.text = ""
+                else {
+                    Glide.with(imageView)
+                        .load(item.image.medium)
+                        .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
+                        .into(imageView)
+                }
+            }
+        }
+
+        /*
+        Glide.with(holder.showImageView)
+            .load(url)
+            .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
+            .into(holder.showImageView)
+         */
     }
 
     //--------------------------------------------------

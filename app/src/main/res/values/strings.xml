@@ -24,6 +24,8 @@
     <string name="activity_show_episode__season">Season:</string>
     <string name="activity_show_episode__summary">Summary:</string>
 
+    <string name="activity_show_details__empty_field">&lt;&lt; Empty field &gt;&gt;</string>
+
     <string name="favorites_title">Favorite Series</string>
 
     <string name="error_searching_shows">Error searching shows.</string>

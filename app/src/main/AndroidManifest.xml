@@ -23,7 +23,7 @@
         <!-- App Activity's -->
 
         <activity
-            android:name=".view.activity.test.RetrofitSearchActivity"
+            android:name=".view.activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -62,6 +62,6 @@
         <!-- Test Activity's -->
 
         <activity android:name=".view.activity.test.RetrofitShowsListActivity" />
-<!--        <activity android:name=".view.activity.test.RetrofitSearchActivity" />-->
+        <activity android:name=".view.activity.test.RetrofitSearchActivity" />
     </application>
 </manifest>

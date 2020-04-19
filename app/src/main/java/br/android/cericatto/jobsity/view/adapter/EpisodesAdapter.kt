@@ -41,7 +41,7 @@ class EpisodesAdapter(
     override fun onBindViewHolder(holder: EpisodesViewHolder, position: Int) {
         val item = mDataList[position]
 
-        val isOddSeason = item.season % 2 == 1
+        val isOddSeason = item.season!! % 2 == 1
         var drawable = ContextCompat.getDrawable(holder.container.context, R.color.colorAccentLight)
         if (isOddSeason) drawable = ContextCompat.getDrawable(holder.container.context, R.color.colorAccentClear)
         holder.container.background = drawable
