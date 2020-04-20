@@ -110,9 +110,11 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
                 mActivity.getViewModel().favoriteMenuClicked = false
                 hideSearchView()
                 mShowsList.clear()
+                Log.i(AppConfiguration.TAG, "checkOptionsItemSelected() -> update. showEmptyRecyclerView(false).")
+                showEmptyRecyclerView(false)
                 Log.i(AppConfiguration.TAG, "checkOptionsItemSelected() -> update. showLoading().")
                 showLoading()
-                Log.i(AppConfiguration.TAG, "checkOptionsItemSelected() -> update. showEmptyRecyclerView(false).")
+//                Log.i(AppConfiguration.TAG, "checkOptionsItemSelected() -> update. showEmptyRecyclerView(false).")
 //                showEmptyRecyclerView(false)
                 getShows()
             }
@@ -285,6 +287,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
                     getFavorites()
                 }
             } else {
+                mActivity.getViewModel().setFavoritesList(it)
                 if (mActivity.getViewModel().favoriteMenuClicked) {
                     Log.i(AppConfiguration.TAG, "initDatabase() -> List empty. showEmptyRecyclerView().")
                     showEmptyRecyclerView()
