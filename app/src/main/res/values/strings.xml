@@ -29,4 +29,9 @@
     <string name="activity_show_details__empty_field">&lt;&lt; Empty field &gt;&gt;</string>
 
     <string name="error_searching_shows">Error searching shows.</string>
+
+    <string name="activity_login__fingerprint">Touch the Fingerprint Sensor</string>
+    <string name="activity_login__lock_screen_not_enabled">Lock screen security not enabled.</string>
+    <string name="activity_login__fingerprint_permission_not_enabled">Permission not enabled (Fingerprint).</string>
+    <string name="activity_login__no_fingerprint_registered">No fingerprint registered, please register.</string>
 </resources>

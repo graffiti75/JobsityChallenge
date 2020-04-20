@@ -79,13 +79,13 @@ fun Context.getEmptyField(): String {
 // Intent Methods
 //--------------------------------------------------
 
-/*
 fun AppCompatActivity.openActivity(clazz: Class<*>) {
     val intent = Intent(this, clazz)
     this.startActivity(intent)
     NavigationUtils.animate(this, NavigationUtils.Animation.GO)
 }
 
+/*
 fun AppCompatActivity.openActivityExtras(clazz: Class<*>, key: String, value: Any) {
     val intent = Intent(this, clazz)
     val extras = getExtra(Bundle(), key, value)
