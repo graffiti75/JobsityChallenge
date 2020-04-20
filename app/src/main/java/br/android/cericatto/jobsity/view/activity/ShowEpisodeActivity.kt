@@ -60,7 +60,7 @@ class ShowEpisodeActivity : ParentActivity() {
         setImage()
 
         Handler().postDelayed({
-            updateVisibilities()
+            showLoading()
         }, 1000)
     }
 
@@ -127,7 +127,7 @@ class ShowEpisodeActivity : ParentActivity() {
          */
     }
 
-    private fun updateVisibilities() {
+    private fun showLoading() {
         activity_show_episode__container.visibility = View.VISIBLE
         activity_show_episode__loading.visibility = View.GONE
     }

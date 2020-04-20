@@ -2,12 +2,11 @@ package br.android.cericatto.jobsity.view.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.os.Parcelable
 import android.view.Menu
+import android.view.MenuItem
 import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.R
-import br.android.cericatto.jobsity.presenter.extensions.hideKeyboardOnStartup
 import br.android.cericatto.jobsity.presenter.main.MainPresenterImpl
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -38,7 +37,6 @@ class MainActivity : ParentActivity() {
 
         mMainPresenter = MainPresenterImpl(this)
         mMainPresenter.init(savedInstanceState)
-        mMainPresenter.checkSavedInstanceState(savedInstanceState)
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {
@@ -49,7 +47,7 @@ class MainActivity : ParentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == AppConfiguration.MAIN_TO_SHOW_DETAILS_CODE) {
-            mMainPresenter.updateVisibilities(false)
+            mMainPresenter.showLoading(false)
         }
     }
 
@@ -66,6 +64,11 @@ class MainActivity : ParentActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         initMenu(menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        mMainPresenter.checkOptionsItemSelected(item)
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initMenu(menu: Menu) {

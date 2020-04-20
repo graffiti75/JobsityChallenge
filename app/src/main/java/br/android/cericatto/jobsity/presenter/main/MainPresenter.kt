@@ -2,6 +2,7 @@ package br.android.cericatto.jobsity.presenter.main
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import br.android.cericatto.jobsity.model.api.Shows
 
 interface MainPresenter {
@@ -18,6 +19,7 @@ interface MainPresenter {
      */
 
     fun initMenu(menu: Menu)
+    fun checkOptionsItemSelected(item: MenuItem)
     fun checkSavedInstanceState(savedInstanceState: Bundle?)
 
     /*
@@ -35,7 +37,7 @@ interface MainPresenter {
     fun clearMoviesList(query: String)
     fun getShowsOnSuccess(list: MutableList<Shows>, searchPerformed: Boolean = true)
     fun setAdapter(list: MutableList<Shows>)
-    fun updateVisibilities(loading: Boolean = true)
+    fun showLoading(loading: Boolean = true)
 
     /*
      * Pagination Methods.

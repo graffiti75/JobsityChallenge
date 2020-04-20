@@ -1,7 +1,9 @@
 package br.android.cericatto.jobsity.presenter.main
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import androidx.lifecycle.ViewModelProviders
@@ -76,7 +78,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
                 try {
                     if (!mActivity.networkOn()) mActivity.showToast(R.string.no_internet)
                     else {
-                        updateVisibilities()
+                        showLoading()
                         clearMoviesList(query)
                         searchShows(query)
                     }
@@ -88,6 +90,18 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
             }
             override fun onQueryTextChange(newText: String) = true
         })
+    }
+
+    override fun checkOptionsItemSelected(item: MenuItem) {
+        when (item.itemId) {
+            R.id.update -> {
+                mSearchView.isIconified = true
+                mSearchView.onActionViewCollapsed()
+                mShowsList.clear()
+                showLoading()
+                getShows()
+            }
+        }
     }
 
     override fun checkSavedInstanceState(savedInstanceState: Bundle?) {
@@ -127,7 +141,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
         }
         mActivity.activity_main__recycler_view.layoutManager!!.onRestoreInstanceState(mActivity.mListState)
         setRecyclerViewScrollListener()
-        updateVisibilities(false)
+        showLoading(false)
     }
 
     override fun getShows() {
@@ -184,7 +198,6 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
         mShowName = query
         mShowsList.clear()
         Cache.clearCacheShows()
-        mViewModel.page = 1
     }
 
     override fun getShowsOnSuccess(list: MutableList<Shows>, searchPerformed: Boolean) {
@@ -202,7 +215,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
         }
         mActivity.activity_main__pagination_loading.visibility = View.GONE
         Cache.cacheShows(mShowsList)
-        updateVisibilities(false)
+        showLoading(false)
     }
 
     override fun setAdapter(list: MutableList<Shows>) {
@@ -210,7 +223,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
         mActivity.activity_main__recycler_view.adapter = mShowsAdapter
     }
 
-    override fun updateVisibilities(loading: Boolean) {
+    override fun showLoading(loading: Boolean) {
         if (loading) {
             mActivity.activity_main__recycler_view.visibility = View.GONE
             mActivity.activity_main__loading.visibility = View.VISIBLE

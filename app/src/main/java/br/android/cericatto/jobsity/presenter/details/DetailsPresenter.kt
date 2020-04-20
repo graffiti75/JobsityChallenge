@@ -32,7 +32,7 @@ interface DetailsPresenter {
     fun initDatabase()
     fun checkCurrentShow()
     fun checkShowIsFavorite()
-    fun updateVisibilities()
+    fun showLoading()
 
     /*
      * Episode Methods.
