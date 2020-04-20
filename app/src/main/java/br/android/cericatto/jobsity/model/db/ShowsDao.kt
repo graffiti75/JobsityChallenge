@@ -15,8 +15,8 @@ interface ShowsDao {
     @Query("SELECT * FROM Shows")
     fun getAll(): LiveData<List<Shows>>
 
-    @Query("SELECT * FROM Shows WHERE favorite = 1")
-    fun getFavorites(): LiveData<List<Shows>>
+    @Query("SELECT * FROM Shows WHERE favorite = 1 ORDER BY Shows.name ASC")
+    fun getFavorites(): LiveData<MutableList<Shows>>
 
     @Query("SELECT * FROM Shows WHERE name LIKE '%' || :search || '%'")
     fun getShowByName(search: String?): LiveData<List<Shows>>

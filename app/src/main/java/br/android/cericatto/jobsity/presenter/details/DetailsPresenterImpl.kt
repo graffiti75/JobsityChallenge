@@ -108,13 +108,6 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
                 }
             }
         }
-
-        /*
-        Glide.with(mActivity.activity_show_details__image_view)
-            .load(mCurrentShow.image.original)
-            .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
-            .into(mActivity.activity_show_details__image_view)
-         */
     }
 
     override fun setSchedule() {
@@ -138,19 +131,6 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
                 mCurrentShow.schedule.days?.joinToString(separator = ", ") { it }
             mActivity.activity_show_details__schedule_time_text_view.text = mCurrentShow.schedule.time
         }
-
-        /*
-        val scheduleDaysEmpty = mCurrentShow.schedule.days!!.isEmpty()
-        val scheduleTimeEmpty  = mCurrentShow.schedule.time.isEmpty()
-        if (scheduleDaysEmpty || scheduleTimeEmpty) {
-            mActivity.activity_show_details__schedule_days_text_view.text = mActivity.getEmptyField()
-            mActivity.activity_show_details__schedule_time_text_view.visibility = View.GONE
-        } else {
-            mActivity.activity_show_details__schedule_days_text_view.text =
-                mCurrentShow.schedule.days?.joinToString(separator = ", ") { it }
-            mActivity.activity_show_details__schedule_time_text_view.text = mCurrentShow.schedule.time
-        }
-         */
     }
 
     override fun setGender() {
@@ -173,14 +153,6 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
     override fun setSummary() {
         mActivity.checkSpannedTextView(text = mCurrentShow.summary,
             textView = mActivity.activity_show_details__summary_text_view)
-        /*
-        val summaryEmpty = mCurrentShow.summary.isEmpty()
-        if (summaryEmpty) {
-            mActivity.activity_show_details__summary_text_view.text = getEmptyField()
-        } else {
-            mActivity.activity_show_details__summary_text_view.text = Html.fromHtml(mCurrentShow.summary)
-        }
-         */
     }
 
     override fun updateDrawable() {

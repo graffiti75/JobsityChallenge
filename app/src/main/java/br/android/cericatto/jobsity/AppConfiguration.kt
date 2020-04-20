@@ -12,6 +12,7 @@ object AppConfiguration {
 
     const val LOGIN_TO_FINGERPRINT_CODE = 3001
     const val LOGIN_TO_PIN_CODE = 4001
+    const val LOGIN_TO_MAIN_CODE = 5001
 
     const val TEST_SEARCH_ID = "139"
     const val TEST_SEARCH_NAME = "Girls"

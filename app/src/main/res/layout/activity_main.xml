@@ -31,6 +31,16 @@
                 tools:itemCount="10"
                 tools:listitem="@layout/item_shows" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_main__empty_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@string/activity_main__empty_recycler_view"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
+
             <include
                 android:id="@+id/activity_main__loading"
                 layout="@layout/loading"

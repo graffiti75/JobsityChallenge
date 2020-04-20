@@ -85,46 +85,15 @@ class ShowEpisodeActivity : ParentActivity() {
     }
 
     private fun setNumber() {
-        checkTextView(text = mCurrentEpisode.number.toString(),
-            textView = activity_show_episode__number_text_view)
-        /*
-        val numberEmpty = currentEpisode.number.toString().isEmpty()
-        if (numberEmpty) {
-            activity_show_episode__number_text_view.text = getEmptyField()
-        } else {
-            activity_show_episode__number_text_view.text = currentEpisode.number.toString()
-        }
-         */
+        checkTextView(mCurrentEpisode.number.toString(), activity_show_episode__number_text_view)
     }
 
     private fun setSeason() {
-        checkTextView(text = mCurrentEpisode.season.toString(),
-            textView = activity_show_episode__season_text_view)
-        /*
-        val seasonEmpty = currentEpisode.season.toString().isEmpty()
-        if (seasonEmpty) {
-            activity_show_episode__season_text_view.text = getEmptyField()
-        } else {
-            activity_show_episode__season_text_view.text = currentEpisode.season.toString()
-        }
-         */
+        checkTextView(mCurrentEpisode.season.toString(), activity_show_episode__season_text_view)
     }
 
     private fun setSummary() {
-        checkSpannedTextView(text = mCurrentEpisode.summary,
-            textView = activity_show_episode__summary_text_view)
-        /*
-        val summaryNull = currentEpisode.summary == null
-        var summaryEmpty = true
-        if (!summaryNull) {
-            summaryEmpty = currentEpisode.summary.isEmpty()
-        }
-        if (summaryNull || summaryEmpty) {
-            activity_show_episode__summary_text_view.text = getEmptyField()
-        } else {
-            activity_show_episode__summary_text_view.text = Html.fromHtml(currentEpisode.summary)
-        }
-         */
+        checkSpannedTextView(mCurrentEpisode.summary, activity_show_episode__summary_text_view)
     }
 
     private fun showLoading() {

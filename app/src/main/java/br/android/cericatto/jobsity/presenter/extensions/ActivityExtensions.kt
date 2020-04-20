@@ -12,11 +12,13 @@ import android.view.animation.Animation
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.BuildConfig
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.retrofit.ApiService
 import br.android.cericatto.jobsity.presenter.utils.NavigationUtils
+import br.android.cericatto.jobsity.view.viewmodel.ShowsViewModel
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -30,6 +32,14 @@ import java.util.concurrent.TimeUnit
 //--------------------------------------------------
 // Overall Methods
 //--------------------------------------------------
+
+fun AppCompatActivity.getViewModel(): ShowsViewModel {
+    return ViewModelProviders.of(this).get(ShowsViewModel::class.java)
+}
+
+fun AppCompatActivity.initViewAnimation(view: View, animation: Animation) {
+    view.startAnimation(animation)
+}
 
 fun AppCompatActivity.initViewAnimation(viewId: Int, animation: Animation) {
     findViewById<View>(viewId).startAnimation(animation)

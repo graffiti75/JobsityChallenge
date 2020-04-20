@@ -20,6 +20,8 @@ interface MainPresenter {
 
     fun initMenu(menu: Menu)
     fun checkOptionsItemSelected(item: MenuItem)
+    fun hideSearchView()
+    fun getFavorites()
     fun checkSavedInstanceState(savedInstanceState: Bundle?)
 
     /*
@@ -37,7 +39,9 @@ interface MainPresenter {
     fun clearMoviesList(query: String)
     fun getShowsOnSuccess(list: MutableList<Shows>, searchPerformed: Boolean = true)
     fun setAdapter(list: MutableList<Shows>)
+    fun initDatabase()
     fun showLoading(loading: Boolean = true)
+    fun showEmptyRecyclerView(empty: Boolean = true)
 
     /*
      * Pagination Methods.

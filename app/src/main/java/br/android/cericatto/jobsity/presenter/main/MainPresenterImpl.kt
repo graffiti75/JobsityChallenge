@@ -1,17 +1,24 @@
 package br.android.cericatto.jobsity.presenter.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.MainApplication
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.Cache
 import br.android.cericatto.jobsity.model.api.Shows
+import br.android.cericatto.jobsity.model.db.AppDatabase
+import br.android.cericatto.jobsity.model.db.ShowsDao
+import br.android.cericatto.jobsity.presenter.extensions.getViewModel
 import br.android.cericatto.jobsity.presenter.extensions.initApiService
 import br.android.cericatto.jobsity.presenter.extensions.networkOn
 import br.android.cericatto.jobsity.presenter.extensions.showToast
@@ -24,6 +31,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
+@SuppressLint("LogNotTimber")
 class MainPresenterImpl(activity: MainActivity) : MainPresenter {
 
     //--------------------------------------------------
@@ -42,6 +50,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
 
     private lateinit var mShowName: String
     private lateinit var mViewModel: ShowsViewModel
+    private lateinit var mShowsDao: ShowsDao
 
     private lateinit var mScrollListener: RecyclerView.OnScrollListener
 
@@ -57,6 +66,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
         MainApplication.service = mActivity.initApiService()
         mViewModel = ViewModelProviders.of(mActivity).get(ShowsViewModel::class.java)
 
+        initDatabase()
         mActivity.setToolbar(R.id.id_toolbar, titleId = R.string.activity_main__title)
         checkSavedInstanceState(savedInstanceState)
     }
@@ -78,6 +88,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
                 try {
                     if (!mActivity.networkOn()) mActivity.showToast(R.string.no_internet)
                     else {
+                        Log.i(AppConfiguration.TAG, "initMenu() -> showLoading().")
                         showLoading()
                         clearMoviesList(query)
                         searchShows(query)
@@ -95,13 +106,49 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
     override fun checkOptionsItemSelected(item: MenuItem) {
         when (item.itemId) {
             R.id.update -> {
-                mSearchView.isIconified = true
-                mSearchView.onActionViewCollapsed()
+                Log.i(AppConfiguration.TAG, "----- checkOptionsItemSelected() -> update.")
+                mActivity.getViewModel().favoriteMenuClicked = false
+                hideSearchView()
                 mShowsList.clear()
+                Log.i(AppConfiguration.TAG, "checkOptionsItemSelected() -> update. showLoading().")
                 showLoading()
+                Log.i(AppConfiguration.TAG, "checkOptionsItemSelected() -> update. showEmptyRecyclerView(false).")
+//                showEmptyRecyclerView(false)
                 getShows()
             }
+            R.id.favorites -> {
+                Log.i(AppConfiguration.TAG, "----- checkOptionsItemSelected() -> favorites.")
+                mActivity.getViewModel().favoriteMenuClicked = true
+                hideSearchView()
+                getFavorites()
+            }
         }
+    }
+
+    override fun hideSearchView() {
+        mSearchView.isIconified = true
+        mSearchView.onActionViewCollapsed()
+    }
+
+    override fun getFavorites() {
+        Log.i(AppConfiguration.TAG, "getFavorites().")
+        Log.i(AppConfiguration.TAG, "getFavorites(). showLoading().")
+        showLoading()
+        Handler().postDelayed({
+            val list = mActivity.getViewModel().getFavoritesList()
+            if (list.isEmpty()) {
+                Log.i(AppConfiguration.TAG, "getFavorites() -> showEmptyRecyclerView().")
+                showEmptyRecyclerView()
+            } else {
+                Log.i(AppConfiguration.TAG, "getFavorites() -> showEmptyRecyclerView(false).")
+                showEmptyRecyclerView(false)
+                mShowsList.clear()
+                mShowsList.addAll(list)
+                setAdapter(mShowsList)
+                Log.i(AppConfiguration.TAG, "getFavorites() -> showLoading(false).")
+                showLoading(false)
+            }
+        }, 1000)
     }
 
     override fun checkSavedInstanceState(savedInstanceState: Bundle?) {
@@ -141,6 +188,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
         }
         mActivity.activity_main__recycler_view.layoutManager!!.onRestoreInstanceState(mActivity.mListState)
         setRecyclerViewScrollListener()
+        Log.i(AppConfiguration.TAG, "showCachedMovies() -> showLoading(false).")
         showLoading(false)
     }
 
@@ -215,6 +263,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
         }
         mActivity.activity_main__pagination_loading.visibility = View.GONE
         Cache.cacheShows(mShowsList)
+        Log.i(AppConfiguration.TAG, "getShowsOnSuccess() -> showLoading(false).")
         showLoading(false)
     }
 
@@ -223,13 +272,48 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
         mActivity.activity_main__recycler_view.adapter = mShowsAdapter
     }
 
+    override fun initDatabase() {
+        Log.i(AppConfiguration.TAG, "initDatabase().")
+//        Log.i(AppConfiguration.TAG, "initDatabase() -> showLoading().")
+//        showLoading()
+        mShowsDao = AppDatabase.getInstance(mActivity.applicationContext)
+        mShowsDao.getFavorites().observe(mActivity, Observer {
+            if (it.isNotEmpty()) {
+                mActivity.getViewModel().setFavoritesList(it)
+                if (mActivity.getViewModel().favoriteMenuClicked) {
+                    getFavorites()
+                }
+            } else {
+                if (mActivity.getViewModel().favoriteMenuClicked) {
+                    Log.i(AppConfiguration.TAG, "initDatabase() -> List empty. showEmptyRecyclerView().")
+                    showEmptyRecyclerView()
+                    Log.i(AppConfiguration.TAG, "initDatabase() -> List empty. showLoading(false).")
+                    showLoading(false)
+                }
+            }
+        })
+    }
+
     override fun showLoading(loading: Boolean) {
+        Log.i(AppConfiguration.TAG, "showLoading() -> loading: $loading.")
         if (loading) {
             mActivity.activity_main__recycler_view.visibility = View.GONE
             mActivity.activity_main__loading.visibility = View.VISIBLE
         } else {
             mActivity.activity_main__recycler_view.visibility = View.VISIBLE
             mActivity.activity_main__loading.visibility = View.GONE
+        }
+    }
+
+
+    override fun showEmptyRecyclerView(empty: Boolean) {
+        Log.i(AppConfiguration.TAG, "showEmptyRecyclerView() -> empty: $empty.")
+        if (empty) {
+            mActivity.activity_main__recycler_view.visibility = View.GONE
+            mActivity.activity_main__empty_recycler_view.visibility = View.VISIBLE
+        } else {
+            mActivity.activity_main__recycler_view.visibility = View.VISIBLE
+            mActivity.activity_main__empty_recycler_view.visibility = View.GONE
         }
     }
 

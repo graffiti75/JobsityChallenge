@@ -9,6 +9,12 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/favorites"
+        android:title="@string/favorites_title"
+        android:icon="@drawable/ic_favorite_black"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/update"
         android:title="@string/restore_title"
         android:icon="@drawable/ic_update"

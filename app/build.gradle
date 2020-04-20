@@ -68,6 +68,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$ANDROID_ARCH_VERSION"
     kapt "androidx.lifecycle:lifecycle-compiler:$ANDROID_ARCH_VERSION"
     kapt "androidx.room:room-compiler:$ANDROID_ARCH_VERSION"
+    implementation "androidx.room:room-rxjava2:$ANDROID_ARCH_VERSION"
 
     // ----- Others -----
 //    implementation "android.arch.lifecycle:extensions:$ARCH_VERSION"

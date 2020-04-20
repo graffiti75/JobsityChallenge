@@ -10,7 +10,7 @@
     <string name="search_title">Search by shows</string>
     <string name="search_hint">Type the name of the show</string>
     <string name="favorites_title">Favorite Series</string>
-    <string name="restore_title">Restore original list</string>
+    <string name="restore_title">Restore Original List</string>
 
     <string name="item_episodes__season">Season: %1$s</string>
     <string name="item_episodes__number">Number: %1$s</string>
@@ -52,4 +52,6 @@
 
     <string name="activity_login__fingerprint">Fingerprint Login</string>
     <string name="activity_login__pin">PIN Login</string>
+    <string name="activity_main__empty_recycler_view">There are no Favorite Series.</string>
+    <string name="activity_login__default">Default Login</string>
 </resources>
