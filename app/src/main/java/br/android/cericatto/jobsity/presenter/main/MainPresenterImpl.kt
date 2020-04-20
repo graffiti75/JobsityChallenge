@@ -136,6 +136,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
         showLoading()
         Handler().postDelayed({
             val list = mActivity.getViewModel().getFavoritesList()
+            Log.i(AppConfiguration.TAG, "getFavorites(). List size: ${list.size}.")
             if (list.isEmpty()) {
                 Log.i(AppConfiguration.TAG, "getFavorites() -> showEmptyRecyclerView().")
                 showEmptyRecyclerView()
@@ -287,8 +288,8 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
                 if (mActivity.getViewModel().favoriteMenuClicked) {
                     Log.i(AppConfiguration.TAG, "initDatabase() -> List empty. showEmptyRecyclerView().")
                     showEmptyRecyclerView()
-                    Log.i(AppConfiguration.TAG, "initDatabase() -> List empty. showLoading(false).")
-                    showLoading(false)
+//                    Log.i(AppConfiguration.TAG, "initDatabase() -> List empty. showLoading(false).")
+//                    showLoading(false)
                 }
             }
         })
