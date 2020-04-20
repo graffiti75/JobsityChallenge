@@ -30,8 +30,26 @@
 
     <string name="error_searching_shows">Error searching shows.</string>
 
-    <string name="activity_login__fingerprint">Touch the Fingerprint Sensor</string>
-    <string name="activity_login__lock_screen_not_enabled">Lock screen security not enabled.</string>
-    <string name="activity_login__fingerprint_permission_not_enabled">Permission not enabled (Fingerprint).</string>
-    <string name="activity_login__no_fingerprint_registered">No fingerprint registered, please register.</string>
+    <string name="activity_fingerprint__touch_fingerprint">Touch the Fingerprint Sensor</string>
+    <string name="activity_fingerprint__lock_screen_not_enabled">Lock screen security not enabled.</string>
+    <string name="activity_fingerprint__fingerprint_permission_not_enabled">Permission not enabled (Fingerprint).</string>
+    <string name="activity_fingerprint__no_fingerprint_registered">No fingerprint registered, please register.</string>
+    <string name="activity_fingerprint__device_does_not_support_fingerprint">This device does not support fingerprint.\nPlease authenticate with PIN.</string>
+
+    <string name="activity_pin__confirm">Confirm</string>
+    <string name="activity_pin__insert_password">Type your PIN</string>
+    <string name="activity_pin__one">1</string>
+    <string name="activity_pin__two">2</string>
+    <string name="activity_pin__three">3</string>
+    <string name="activity_pin__four">4</string>
+    <string name="activity_pin__five">5</string>
+    <string name="activity_pin__six">6</string>
+    <string name="activity_pin__seven">7</string>
+    <string name="activity_pin__eight">8</string>
+    <string name="activity_pin__nine">9</string>
+    <string name="activity_pin__zero">0</string>
+    <string name="activity_pin__invalid_password_length">PIN must have between 4 and 6 characters.</string>
+
+    <string name="activity_login__fingerprint">Fingerprint Login</string>
+    <string name="activity_login__pin">PIN Login</string>
 </resources>

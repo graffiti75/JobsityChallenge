@@ -10,6 +10,9 @@ object AppConfiguration {
     const val SHOW_DETAILS_TO_EPISODE_DETAILS_CODE = 2001
     const val CURRENT_EPISODE_EXTRA = "current_episode_extra"
 
+    const val LOGIN_TO_FINGERPRINT_CODE = 3001
+    const val LOGIN_TO_PIN_CODE = 4001
+
     const val TEST_SEARCH_ID = "139"
     const val TEST_SEARCH_NAME = "Girls"
     const val TEST_SEARCH_SCORE = "17.602106"

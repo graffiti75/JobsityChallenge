@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <!--suppress DeprecatedClassUsageInspection -->
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <!--=============== APPLICATION ===============-->
@@ -32,6 +33,20 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".view.activity.FingerprintActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
+
+        <activity
+            android:name=".view.activity.PINActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
         </activity>
 
         <activity

@@ -7,6 +7,8 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.view.View
+import android.view.animation.Animation
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +30,10 @@ import java.util.concurrent.TimeUnit
 //--------------------------------------------------
 // Overall Methods
 //--------------------------------------------------
+
+fun AppCompatActivity.initViewAnimation(viewId: Int, animation: Animation) {
+    findViewById<View>(viewId).startAnimation(animation)
+}
 
 fun Context.showToast(message: Int) {
     Toast.makeText(this, this.getString(message), Toast.LENGTH_LONG).show()
@@ -82,6 +88,12 @@ fun Context.getEmptyField(): String {
 fun AppCompatActivity.openActivity(clazz: Class<*>) {
     val intent = Intent(this, clazz)
     this.startActivity(intent)
+    NavigationUtils.animate(this, NavigationUtils.Animation.GO)
+}
+
+fun AppCompatActivity.openActivityForResult(code: Int, clazz: Class<*>) {
+    val intent = Intent(this, clazz)
+    this.startActivityForResult(intent, code)
     NavigationUtils.animate(this, NavigationUtils.Animation.GO)
 }
 

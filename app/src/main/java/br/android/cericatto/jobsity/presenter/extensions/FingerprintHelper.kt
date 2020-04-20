@@ -7,13 +7,12 @@ import android.hardware.fingerprint.FingerprintManager
 import android.os.CancellationSignal
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import br.android.cericatto.jobsity.view.activity.LoginActivity
+import br.android.cericatto.jobsity.view.activity.FingerprintActivity
 import br.android.cericatto.jobsity.view.activity.MainActivity
-import br.android.cericatto.jobsity.view.activity.ShowDetailsActivity
 
 @SuppressLint("ByteOrderMark")
 @Suppress("DEPRECATION")
-class FingerprintHelper(private val mActivity: LoginActivity) : FingerprintManager.AuthenticationCallback() {
+class FingerprintHelper(private val mActivity: FingerprintActivity) : FingerprintManager.AuthenticationCallback() {
 
     //--------------------------------------------------
     // Constants

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!--=============== Header ===============-->
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="@string/activity_pin__insert_password"
+        android:textColor="@color/colorPrimary"
+        android:textSize="28sp" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/activity_pin__password_edit_text"
+        style="@style/PIN_EditText"
+        android:enabled="false"
+        tools:text="1234" />
+
+    <!--=============== Dial Pad ===============-->
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp">
+
+        <!-- First Row -->
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_pin__one_text_view"
+                style="@style/PIN_DialPad"
+                android:text="@string/activity_pin__one" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_pin__two_text_view"
+                style="@style/PIN_DialPad"
+                android:text="@string/activity_pin__two" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_pin__three_text_view"
+                style="@style/PIN_DialPad"
+                android:text="@string/activity_pin__three" />
+        </TableRow>
+
+        <!-- Second Row -->
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_pin__four_text_view"
+                style="@style/PIN_DialPad"
+                android:text="@string/activity_pin__four" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_pin__five_text_view"
+                style="@style/PIN_DialPad"
+                android:text="@string/activity_pin__five" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_pin__six_text_view"
+                style="@style/PIN_DialPad"
+                android:text="@string/activity_pin__six" />
+        </TableRow>
+
+        <!-- Third Row -->
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_pin__seven_text_view"
+                style="@style/PIN_DialPad"
+                android:text="@string/activity_pin__seven" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_pin__eight_text_view"
+                style="@style/PIN_DialPad"
+                android:text="@string/activity_pin__eight" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_pin__nine_text_view"
+                style="@style/PIN_DialPad"
+                android:text="@string/activity_pin__nine" />
+        </TableRow>
+
+        <!-- Fourth Row -->
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp">
+
+            <androidx.appcompat.widget.AppCompatTextView style="@style/PIN_DialPad" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_pin__zero_text_view"
+                style="@style/PIN_DialPad"
+                android:text="@string/activity_pin__zero" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/activity_pin__delete_text_view"
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_pin_delete" />
+        </TableRow>
+    </TableLayout>
+
+    <!--=============== Bottom ===============-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/activity_pin__confirm_button"
+        style="@style/PIN_ConfirmTextView"
+        android:text="@string/activity_pin__confirm" />
+</LinearLayout>
