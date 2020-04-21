@@ -3,11 +3,9 @@ package br.android.cericatto.jobsity.view.activity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.SearchView
-import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.MainApplication
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.api.Person
@@ -149,7 +147,6 @@ class PersonSearchActivity : ParentActivity() {
     //--------------------------------------------------
 
     private fun showLoading(loading: Boolean = true) {
-        Log.i(AppConfiguration.TAG, "showLoading() -> loading: $loading.")
         if (loading) {
             activity_person_search__recycler_view.visibility = View.GONE
             activity_person_search__loading.visibility = View.VISIBLE
@@ -160,7 +157,6 @@ class PersonSearchActivity : ParentActivity() {
     }
 
     private fun showEmptyRecyclerView(empty: Boolean = true) {
-        Log.i(AppConfiguration.TAG, "showEmptyRecyclerView() -> empty: $empty.")
         if (empty) {
             activity_person_search__recycler_view.visibility = View.GONE
             activity_person_search__empty_recycler_view.visibility = View.VISIBLE
