@@ -37,12 +37,12 @@ class LoginActivity : AppCompatActivity() {
     //--------------------------------------------------
 
     private fun initLayout() {
-        val animation = AnimationUtils.loadAnimation(this, R.anim.zoom_in_95)
-        activity_login__default_button.setOnClickListener {
-            initViewAnimation(it, animation)
-            openActivityForResult(AppConfiguration.LOGIN_TO_MAIN_CODE,
-                MainActivity::class.java)
-        }
+        val animation = AnimationUtils.loadAnimation(this, R.anim.zoom_in_90)
+//        activity_login__default_button.setOnClickListener {
+//            initViewAnimation(it, animation)
+//            openActivityForResult(AppConfiguration.LOGIN_TO_MAIN_CODE,
+//                MainActivity::class.java)
+//        }
         activity_login__fingerprint_button.setOnClickListener {
             initViewAnimation(it, animation)
             openActivityForResult(AppConfiguration.LOGIN_TO_FINGERPRINT_CODE,
