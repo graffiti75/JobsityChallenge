@@ -32,7 +32,7 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
     // Attributes
     //--------------------------------------------------
 
-    var mActivity = activity
+    private var mActivity = activity
 
     private val mComposite = CompositeDisposable()
     private var mShowId = 0
@@ -191,10 +191,10 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
                 mShowsDao.insert(mCurrentShow.copy(favorite = !mFavorite))
             }
         } else {
+            mFavorite = !mFavorite
+            updateDrawable()
             AppExecutors.instance?.diskIO()?.execute {
                 mShowsDao.delete(mCurrentShow)
-                mFavorite = !mFavorite
-                updateDrawable()
             }
         }
     }
