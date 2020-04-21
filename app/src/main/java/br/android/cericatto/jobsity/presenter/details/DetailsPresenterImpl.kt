@@ -203,7 +203,7 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
      * Loading Methods.
      */
 
-    override fun showLoading() {
+    override fun hideLoading() {
         mActivity.activity_show_details__container.visibility = View.VISIBLE
         mActivity.activity_show_details__loading.visibility = View.GONE
     }
@@ -245,6 +245,6 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
             mActivity.activity_show_details__empty_recycler_text_view.visibility = View.GONE
             setAdapter(list)
         }
-        showLoading()
+        hideLoading()
     }
 }

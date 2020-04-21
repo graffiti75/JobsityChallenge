@@ -1,11 +1,12 @@
 package br.android.cericatto.jobsity.view.activity
 
-import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
 import android.view.View
 import android.widget.SearchView
+import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.MainApplication
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.api.Person
@@ -18,7 +19,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_person_search.*
 import timber.log.Timber
 
-@SuppressLint("LogNotTimber")
 class PersonSearchActivity : ParentActivity() {
 
     //--------------------------------------------------
@@ -42,6 +42,14 @@ class PersonSearchActivity : ParentActivity() {
 
         setToolbar(toolbarId = R.id.id_toolbar, homeEnabled = true,
             titleId = R.string.activity_person_search__title)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AppConfiguration.PERSON_SEARCH_TO_PERSON_DETAILS_CODE) {
+            showLoading(false)
+            hideSearchView()
+        }
     }
 
     override fun onDestroy() {
@@ -145,6 +153,11 @@ class PersonSearchActivity : ParentActivity() {
     //--------------------------------------------------
     // Loading Methods
     //--------------------------------------------------
+
+    private fun hideSearchView() {
+        mSearchView.isIconified = true
+        mSearchView.onActionViewCollapsed()
+    }
 
     private fun showLoading(loading: Boolean = true) {
         if (loading) {

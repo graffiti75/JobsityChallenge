@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/activity_person_details__container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Image -->
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp">
+
+                <ImageView
+                    android:id="@+id/activity_person_details__image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_image_placeholder" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black_transparent_30" />
+            </FrameLayout>
+
+            <!-- Series -->
+
+            <TextView
+                style="@style/ShowDetails_LabelTextView"
+                android:text="@string/activity_person_details__series" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_person_details__recycler_view"
+                style="@style/RecyclerView_ScrollbarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="10"
+                tools:listitem="@layout/item_cast_credits" />
+
+            <TextView
+                android:id="@+id/activity_person_details__empty_recycler_text_view"
+                style="@style/ShowDetails_TextView"
+                android:layout_marginBottom="10dp"
+                android:text="@string/activity_show_details__empty_field"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/activity_person_details__loading"
+            layout="@layout/loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+    </FrameLayout>
+</LinearLayout>

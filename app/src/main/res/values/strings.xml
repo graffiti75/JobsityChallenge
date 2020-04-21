@@ -62,4 +62,6 @@
 
     <string name="activity_person_search__empty_recycler_view">There are no People selected.</string>
     <string name="item_person__lack_of_time">Unfortunately, I didn\'t got time to implement this feature:\n- After clicking on a Person, the application should show the Details of that Person.</string>
+
+    <string name="activity_person_details__series">Series:</string>
 </resources>

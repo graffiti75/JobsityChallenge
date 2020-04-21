@@ -37,7 +37,7 @@ interface DetailsPresenter {
      * Loading Methods.
      */
 
-    fun showLoading()
+    fun hideLoading()
 
     /*
      * Episode Methods.

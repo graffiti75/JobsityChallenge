@@ -96,6 +96,17 @@
                 android:resource="@xml/searchable_person" />
         </activity>
 
+        <activity
+            android:name=".view.activity.PersonDetailsActivity"
+            android:parentActivityName=".view.activity.PersonSearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activity.PersonSearchActivity" />
+        </activity>
+
         <!-- Test Activity's -->
 
         <activity android:name=".view.activity.test.RetrofitShowsListActivity" />

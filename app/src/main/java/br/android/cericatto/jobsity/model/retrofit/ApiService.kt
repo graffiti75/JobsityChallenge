@@ -1,9 +1,6 @@
 package br.android.cericatto.jobsity.model.retrofit
 
-import br.android.cericatto.jobsity.model.api.Episode
-import br.android.cericatto.jobsity.model.api.SearchPeople
-import br.android.cericatto.jobsity.model.api.SearchShow
-import br.android.cericatto.jobsity.model.api.Shows
+import br.android.cericatto.jobsity.model.api.*
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -29,4 +26,9 @@ interface ApiService {
     fun searchPeople(
         @Query("q") keyword: String
     ): Observable<MutableList<SearchPeople>>
+
+    @GET("/people/{peopleId}/castcredits")
+    fun castCredits(
+        @Path("peopleId") peopleId: String
+    ): Observable<MutableList<CastCredits>>
 }

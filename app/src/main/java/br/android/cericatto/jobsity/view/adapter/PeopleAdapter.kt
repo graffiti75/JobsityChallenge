@@ -4,12 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import br.android.cericatto.jobsity.AppConfiguration
 import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.api.Person
+import br.android.cericatto.jobsity.presenter.extensions.openActivityForResultWithExtras
 import br.android.cericatto.jobsity.presenter.extensions.showToast
+import br.android.cericatto.jobsity.view.activity.PersonDetailsActivity
 import br.android.cericatto.jobsity.view.activity.PersonSearchActivity
+import br.android.cericatto.jobsity.view.activity.ShowEpisodeActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.item_person.view.*
 
 class PeopleAdapter(
@@ -39,7 +44,11 @@ class PeopleAdapter(
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
         val item = mDataList[position]
         holder.container.setOnClickListener {
-            mActivity.showToast(R.string.item_person__lack_of_time)
+            val json: String = Gson().toJson(item)
+            mActivity.openActivityForResultWithExtras(
+                PersonDetailsActivity::class.java, AppConfiguration.PERSON_SEARCH_TO_PERSON_DETAILS_CODE,
+                AppConfiguration.CURRENT_PERSON_EXTRA, json
+            )
         }
 
         setImage(holder, item)
