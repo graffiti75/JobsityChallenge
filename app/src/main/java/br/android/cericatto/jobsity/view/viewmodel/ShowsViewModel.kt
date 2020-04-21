@@ -8,6 +8,7 @@ import br.android.cericatto.jobsity.model.api.Shows
 class ShowsViewModel(application: Application) : AndroidViewModel(application) {
     var favorites = mutableListOf<Shows>()
     var favoriteMenuClicked = false
+    var searchMenuClicked = false
     var lastId: Int = 0
     var page: Int = 0
 

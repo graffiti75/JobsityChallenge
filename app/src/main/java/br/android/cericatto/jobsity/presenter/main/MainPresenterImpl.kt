@@ -108,6 +108,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
             R.id.update -> {
                 Log.i(AppConfiguration.TAG, "----- checkOptionsItemSelected() -> update.")
                 mActivity.getViewModel().favoriteMenuClicked = false
+                mActivity.getViewModel().searchMenuClicked = false
                 hideSearchView()
                 mShowsList.clear()
                 Log.i(AppConfiguration.TAG, "checkOptionsItemSelected() -> update. showEmptyRecyclerView(false).")
@@ -121,6 +122,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
             R.id.favorites -> {
                 Log.i(AppConfiguration.TAG, "----- checkOptionsItemSelected() -> favorites.")
                 mActivity.getViewModel().favoriteMenuClicked = true
+                mActivity.getViewModel().searchMenuClicked = false
                 hideSearchView()
                 getFavorites()
             }
@@ -229,6 +231,7 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
                     val list: MutableList<Shows> = it.map {
                         data -> data.show } as MutableList<Shows>
                     mIsToolbarMenuSearch = true
+                    mActivity.getViewModel().searchMenuClicked = true
                     getShowsOnSuccess(list)
                 },
                 {
@@ -284,15 +287,19 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
             if (it.isNotEmpty()) {
                 mActivity.getViewModel().setFavoritesList(it)
                 if (mActivity.getViewModel().favoriteMenuClicked) {
-                    getFavorites()
+                    if (!mActivity.getViewModel().searchMenuClicked) {
+                        getFavorites()
+                    }
                 }
             } else {
                 mActivity.getViewModel().setFavoritesList(it)
                 if (mActivity.getViewModel().favoriteMenuClicked) {
-                    Log.i(AppConfiguration.TAG, "initDatabase() -> List empty. showEmptyRecyclerView().")
-                    showEmptyRecyclerView()
-//                    Log.i(AppConfiguration.TAG, "initDatabase() -> List empty. showLoading(false).")
-//                    showLoading(false)
+                    if (!mActivity.getViewModel().searchMenuClicked) {
+                        Log.i(AppConfiguration.TAG, "initDatabase() -> List empty. showEmptyRecyclerView().")
+                        showEmptyRecyclerView()
+//                       Log.i(AppConfiguration.TAG, "initDatabase() -> List empty. showLoading(false).")
+//                        showLoading(false)
+                    }
                 }
             }
         })
