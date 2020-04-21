@@ -24,7 +24,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp">
+                android:layout_height="320dp">
 
                 <ImageView
                     android:id="@+id/activity_person_details__image_view"
