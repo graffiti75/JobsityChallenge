@@ -48,6 +48,7 @@ class MainActivity : ParentActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == AppConfiguration.MAIN_TO_SHOW_DETAILS_CODE) {
             mMainPresenter.showLoading(false)
+            mMainPresenter.hideSearchView()
         }
     }
 

@@ -120,6 +120,8 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
                 getShows()
             }
             R.id.favorites -> {
+                Log.i(AppConfiguration.TAG, ">>>>> checkOptionsItemSelected() -> update. showLoading().")
+                showLoading()
                 Log.i(AppConfiguration.TAG, "----- checkOptionsItemSelected() -> favorites.")
                 mActivity.getViewModel().favoriteMenuClicked = true
                 mActivity.getViewModel().searchMenuClicked = false
