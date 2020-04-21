@@ -7,6 +7,7 @@ object AppConfiguration {
     const val CURRENT_SHOW_EXTRA = "current_show_extra"
     const val CURRENT_PERSON_EXTRA = "current_person_extra"
     const val CURRENT_EPISODE_EXTRA = "current_episode_extra"
+    const val CURRENT_URL_EXTRA = "current_url_extra"
 
     const val MAIN_TO_SHOW_DETAILS_CODE = 1001
     const val SHOW_DETAILS_TO_EPISODE_DETAILS_CODE = 2001

@@ -107,8 +107,7 @@ fun AppCompatActivity.openActivityForResult(code: Int, clazz: Class<*>) {
     NavigationUtils.animate(this, NavigationUtils.Animation.GO)
 }
 
-/*
-fun AppCompatActivity.openActivityExtras(clazz: Class<*>, key: String, value: Any) {
+fun AppCompatActivity.openActivityExtra(clazz: Class<*>, key: String, value: Any) {
     val intent = Intent(this, clazz)
     val extras = getExtra(Bundle(), key, value)
     intent.putExtras(extras)
@@ -116,7 +115,22 @@ fun AppCompatActivity.openActivityExtras(clazz: Class<*>, key: String, value: An
     this.startActivity(intent)
     NavigationUtils.animate(this, NavigationUtils.Animation.GO)
 }
- */
+
+fun AppCompatActivity.openActivityExtras(clazz: Class<*>, keys: Array<String>, values: Array<String>) {
+    val intent = Intent(this, clazz)
+
+    var extras = Bundle()
+    val size = keys.size
+    for (i in 0 until size) {
+        val key = keys[i]
+        val value = values[i]
+        extras = getExtra(extras, key, value)
+    }
+    intent.putExtras(extras)
+
+    this.startActivity(intent)
+    NavigationUtils.animate(this, NavigationUtils.Animation.GO)
+}
 
 fun AppCompatActivity.openActivityForResultWithExtras(clazz: Class<*>, code: Int, key: String, value: Any) {
     val intent = Intent(this, clazz)
@@ -201,6 +215,7 @@ private fun Context.initOkHttpClient(): OkHttpClient {
     val logging = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
         override fun log(message: String) {
             Timber.d(message)
+//            Log.d(AppConfiguration.TAG, message)
         }
     })
 

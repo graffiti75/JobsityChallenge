@@ -107,6 +107,17 @@
                 android:value=".view.activity.PersonSearchActivity" />
         </activity>
 
+        <activity
+            android:name=".view.activity.WebViewActivity"
+            android:parentActivityName=".view.activity.PersonDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activity.PersonDetailsActivity" />
+        </activity>
+
         <!-- Test Activity's -->
 
         <activity android:name=".view.activity.test.RetrofitShowsListActivity" />

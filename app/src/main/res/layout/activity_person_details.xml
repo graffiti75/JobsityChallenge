@@ -57,7 +57,7 @@
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="10"
-                tools:listitem="@layout/item_cast_credits" />
+                tools:listitem="@layout/item_person_series" />
 
             <TextView
                 android:id="@+id/activity_person_details__empty_recycler_text_view"

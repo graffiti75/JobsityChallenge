@@ -31,4 +31,9 @@ interface ApiService {
     fun castCredits(
         @Path("peopleId") peopleId: String
     ): Observable<MutableList<CastCredits>>
+
+    @GET("/shows/{showId}")
+    fun getShow(
+        @Path("showId") showId: String
+    ): Observable<Shows>
 }

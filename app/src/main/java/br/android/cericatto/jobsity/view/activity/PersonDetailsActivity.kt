@@ -8,6 +8,7 @@ import br.android.cericatto.jobsity.R
 import br.android.cericatto.jobsity.model.api.CastCredits
 import br.android.cericatto.jobsity.model.api.Person
 import br.android.cericatto.jobsity.presenter.extensions.networkOn
+import br.android.cericatto.jobsity.presenter.extensions.openActivityExtras
 import br.android.cericatto.jobsity.presenter.extensions.showToast
 import br.android.cericatto.jobsity.view.adapter.PersonSeriesAdapter
 import com.bumptech.glide.Glide
@@ -41,7 +42,7 @@ class PersonDetailsActivity : ParentActivity() {
     }
 
     //--------------------------------------------------
-    // Menu Methods
+    // Main Methods
     //--------------------------------------------------
 
     private fun getExtras() {
@@ -116,11 +117,46 @@ class PersonDetailsActivity : ParentActivity() {
     }
 
     private fun setAdapter(list: MutableList<CastCredits>) {
-        activity_person_details__recycler_view.adapter = PersonSeriesAdapter(list)
+        activity_person_details__recycler_view.adapter = PersonSeriesAdapter(this, list)
     }
 
     private fun hideLoading() {
         activity_person_details__container.visibility = View.VISIBLE
         activity_person_details__loading.visibility = View.GONE
+    }
+
+    //--------------------------------------------------
+    // Callback Methods
+    //--------------------------------------------------
+
+    fun getCurrentShow(showId: String) {
+        getShow(showId)
+    }
+
+    private fun getShow(showId: String) {
+        if (!networkOn()) showToast(R.string.no_internet)
+        else {
+            val service = MainApplication.service
+            val observable = service.getShow(showId)
+            val subscription = observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        val url = it.officialSite!!
+                        val keys = arrayOf(AppConfiguration.CURRENT_PERSON_EXTRA,
+                            AppConfiguration.CURRENT_URL_EXTRA)
+                        val values = arrayOf(mCurrentPerson.name!!, url)
+                        openActivityExtras(WebViewActivity::class.java, keys, values)
+                    },
+                    {
+                        Timber.i("getShow() -> On error: $it")
+                    },
+                    {
+                        Timber.i("getShow() -> On Completed.")
+                    }
+                )
+            mComposite.add(subscription)
+        }
     }
 }
