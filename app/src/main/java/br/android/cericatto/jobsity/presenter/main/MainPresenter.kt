@@ -40,6 +40,11 @@ interface MainPresenter {
     fun getShowsOnSuccess(list: MutableList<Shows>, searchPerformed: Boolean = true)
     fun setAdapter(list: MutableList<Shows>)
     fun initDatabase()
+
+    /*
+     * Loading Methods.
+     */
+
     fun showLoading(loading: Boolean = true)
     fun showEmptyRecyclerView(empty: Boolean = true)
 

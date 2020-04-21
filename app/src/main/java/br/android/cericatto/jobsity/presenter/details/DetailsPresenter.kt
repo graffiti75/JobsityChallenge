@@ -32,6 +32,11 @@ interface DetailsPresenter {
     fun initDatabase()
     fun checkCurrentShow()
     fun checkShowIsFavorite()
+
+    /*
+     * Loading Methods.
+     */
+
     fun showLoading()
 
     /*

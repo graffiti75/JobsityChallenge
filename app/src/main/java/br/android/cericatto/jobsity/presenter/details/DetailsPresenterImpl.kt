@@ -199,6 +199,10 @@ class DetailsPresenterImpl(activity: ShowDetailsActivity) : DetailsPresenter {
         }
     }
 
+    /*
+     * Loading Methods.
+     */
+
     override fun showLoading() {
         mActivity.activity_show_details__container.visibility = View.VISIBLE
         mActivity.activity_show_details__loading.visibility = View.GONE

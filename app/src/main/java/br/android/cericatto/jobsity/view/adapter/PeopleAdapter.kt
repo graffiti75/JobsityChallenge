@@ -4,22 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import br.android.cericatto.jobsity.AppConfiguration
-import br.android.cericatto.jobsity.MainApplication
 import br.android.cericatto.jobsity.R
-import br.android.cericatto.jobsity.model.api.Shows
-import br.android.cericatto.jobsity.presenter.extensions.openActivityForResultWithExtras
-import br.android.cericatto.jobsity.view.activity.MainActivity
-import br.android.cericatto.jobsity.view.activity.ShowDetailsActivity
+import br.android.cericatto.jobsity.model.api.Person
+import br.android.cericatto.jobsity.presenter.extensions.showToast
+import br.android.cericatto.jobsity.view.activity.PersonSearchActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.gson.Gson
-import kotlinx.android.synthetic.main.item_shows.view.*
+import kotlinx.android.synthetic.main.item_person.view.*
 
-class ShowsAdapter(
-    private val mActivity: MainActivity,
-    private val mDataList: MutableList<Shows>
-) : RecyclerView.Adapter<ShowsAdapter.ShowsViewHolder>() {
+class PeopleAdapter(
+    private val mActivity: PersonSearchActivity,
+    private val mDataList: MutableList<Person>
+) : RecyclerView.Adapter<PeopleAdapter.PersonViewHolder>() {
 
     //--------------------------------------------------
     // Attributes
@@ -31,25 +27,19 @@ class ShowsAdapter(
     // Recycler View
     //--------------------------------------------------
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         if (!::mLayoutInflater.isInitialized) {
             mLayoutInflater = LayoutInflater.from(parent.context)
         }
-        return ShowsViewHolder(mLayoutInflater.inflate(R.layout.item_shows, parent, false))
+        return PersonViewHolder(mLayoutInflater.inflate(R.layout.item_person, parent, false))
     }
 
     override fun getItemCount() = mDataList.size
 
-    override fun onBindViewHolder(holder: ShowsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
         val item = mDataList[position]
-        MainApplication.currentAdapterShowId = item.id
-
         holder.container.setOnClickListener {
-            val json: String = Gson().toJson(item)
-            mActivity.openActivityForResultWithExtras(
-                ShowDetailsActivity::class.java, AppConfiguration.MAIN_TO_SHOW_DETAILS_CODE,
-                AppConfiguration.CURRENT_SHOW_EXTRA, json
-            )
+            mActivity.showToast(R.string.item_person__lack_of_time)
         }
 
         setImage(holder, item)
@@ -60,17 +50,12 @@ class ShowsAdapter(
     // Methods
     //--------------------------------------------------
 
-    fun updateList(list: MutableList<Shows>) {
-        mDataList.addAll(list)
-        notifyDataSetChanged()
-    }
-
-    private fun setName(holder: ShowsViewHolder, item: Shows?) {
+    private fun setName(holder: PersonViewHolder, item: Person?) {
         if (!item!!.name.isNullOrBlank() || !item!!.name.isNullOrEmpty())
             holder.nameTextView.text = item.name
     }
 
-    private fun setImage(holder: ShowsViewHolder, item: Shows?) {
+    private fun setImage(holder: PersonViewHolder, item: Person?) {
         val imageView = holder.showImageView
         val textView = holder.nameTextView
 
@@ -98,9 +83,9 @@ class ShowsAdapter(
     // View Holder
     //--------------------------------------------------
 
-    inner class ShowsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val container = itemView.item_shows__card_view!!
-        val showImageView = itemView.item_shows__image_view!!
-        val nameTextView = itemView.item_shows__name_text_view!!
+    inner class PersonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val container = itemView.item_person__card_view!!
+        val showImageView = itemView.item_person__image_view!!
+        val nameTextView = itemView.item_person__name_text_view!!
     }
 }

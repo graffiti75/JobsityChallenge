@@ -18,11 +18,9 @@ import br.android.cericatto.jobsity.model.Cache
 import br.android.cericatto.jobsity.model.api.Shows
 import br.android.cericatto.jobsity.model.db.AppDatabase
 import br.android.cericatto.jobsity.model.db.ShowsDao
-import br.android.cericatto.jobsity.presenter.extensions.getViewModel
-import br.android.cericatto.jobsity.presenter.extensions.initApiService
-import br.android.cericatto.jobsity.presenter.extensions.networkOn
-import br.android.cericatto.jobsity.presenter.extensions.showToast
+import br.android.cericatto.jobsity.presenter.extensions.*
 import br.android.cericatto.jobsity.view.activity.MainActivity
+import br.android.cericatto.jobsity.view.activity.PersonSearchActivity
 import br.android.cericatto.jobsity.view.adapter.ShowsAdapter
 import br.android.cericatto.jobsity.view.viewmodel.ShowsViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -127,6 +125,9 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
                 mActivity.getViewModel().searchMenuClicked = false
                 hideSearchView()
                 getFavorites()
+            }
+            R.id.people_search -> {
+                mActivity.openActivity(PersonSearchActivity::class.java)
             }
         }
     }
@@ -307,6 +308,10 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
         })
     }
 
+    /*
+     * Loading Methods.
+     */
+
     override fun showLoading(loading: Boolean) {
         Log.i(AppConfiguration.TAG, "showLoading() -> loading: $loading.")
         if (loading) {
@@ -317,7 +322,6 @@ class MainPresenterImpl(activity: MainActivity) : MainPresenter {
             mActivity.activity_main__loading.visibility = View.GONE
         }
     }
-
 
     override fun showEmptyRecyclerView(empty: Boolean) {
         Log.i(AppConfiguration.TAG, "showEmptyRecyclerView() -> empty: $empty.")

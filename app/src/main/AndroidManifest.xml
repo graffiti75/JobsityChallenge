@@ -57,7 +57,7 @@
             tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                android:resource="@xml/searchable_shows" />
         </activity>
 
         <activity
@@ -80,6 +80,20 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activity.ShowDetailsActivity" />
+        </activity>
+
+        <activity
+            android:name=".view.activity.PersonSearchActivity"
+            android:parentActivityName=".view.activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activity.MainActivity" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable_person" />
         </activity>
 
         <!-- Test Activity's -->

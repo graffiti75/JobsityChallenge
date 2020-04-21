@@ -19,4 +19,10 @@
         android:title="@string/restore_title"
         android:icon="@drawable/ic_update"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/people_search"
+        android:title="@string/person_search_title"
+        android:icon="@drawable/ic_people"
+        app:showAsAction="never" />
 </menu>
